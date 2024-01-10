@@ -11,6 +11,8 @@ if (interactive()) {
     ui_done("Library {ui_value('devtools')} attached.")
     library(testthat)
     ui_done("Library {ui_value('testthat')} attached.")
+    library(targets)
+    ui_done("Library {ui_value('targets')} attached.")
   }))
 }
 
