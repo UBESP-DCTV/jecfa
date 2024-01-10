@@ -8,7 +8,7 @@ Authors@R:
       person("Corrado", "Lanera", , "corrado.lanera@ubep.unipd.it", role = c("ctb"),
            comment = c(ORCID = "0000-0002-0520-7428"))
     )
-Description: scrapes details related to chemicals from the [Evaluations of the Joint FAO/WHO Expert Committee on Food Additives (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/), captures evaluation reports, links, and other data points.
+Description: Scrapes details related to chemicals from the [Evaluations of the Joint FAO/WHO Expert Committee on Food Additives (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/), captures evaluation reports, links, and other data points.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -23,6 +23,11 @@ Imports:
 Suggests: 
     checkmate,
     devtools,
+    lintr,
+    readr,
+    spelling,
+    tarchetypes,
+    targets,
     testthat (>= 3.0.0),
     tidyverse
 Config/testthat/edition: 3

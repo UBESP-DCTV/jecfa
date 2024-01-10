@@ -6,30 +6,18 @@ date: "2023-12-04"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(targets)
+library(DT)
 ```
 ## Web scraping JECFA 
 The provided code iterates through a range of numbers (1 to 7000) to scrape data from specific URLs. It constructs URLs, reads HTML content, and retrieves relevant information from web pages. The code scrapes details related to chemicals from the [Evaluations of the Joint FAO/WHO Expert Committee on Food Additives (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/), captures evaluation reports, links, and other data points. Using error handling, it ensures continued execution even if errors occur during the scraping process, printing any encountered errors. Ultimately, it compiles the gathered data into a dataframe and cleans it by removing empty variables and duplicates. The final dataframe consists of 6525 rows.
 
-```{r packages, include=FALSE}
-library(tidyverse)
-library(here)
-```
-
-```{r functions, include=FALSE}
-list.files(here("R"), pattern = "\\.R$", full.names = TRUE) |> 
-  walk(source)
-```
-
-```{r scraping}
-jecfa_raw <- create_df(n = 7)
-```
 
 ```{r processing}
-jecfa <- process_df(jecfa_raw)
+head(tar_read(jecfa)) |> 
+  datatable()
 ```
 
-```{r saving}
-write_rds(jecfa_raw, file = here("data-raw", "jecfa_raw.rds"))
-write_rds(jecfa, file = here("output", "jecfa.rds"))
-```
-
+## Acknowledgments
+This document was created using the [targets](https://books.ropensci.org/targets/) package.
