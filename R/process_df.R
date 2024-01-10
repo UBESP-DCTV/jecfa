@@ -1,10 +1,14 @@
 process_df <- function(df_clean) {
   df_clean %>%
     dplyr::mutate(
-      #    JECFA_name = str_trim(str_replace_all(JECFA_name, '\n', '')),
-      FAS = dplyr::if_else(stringr::str_sub(`Tox Monograph1`, 1, 4) == 'FAS ', stringr::str_sub(`Tox Monograph1`, 5), ''),
-      FAS = stringr::str_split(FAS, '/', simplify = TRUE)[, 1],
-      FAS = stringr::str_split(FAS, '-', simplify = TRUE)[, 1],
+      #    JECFA_name = str_trim(str_replace_all(JECFA_name, "\n", "")),
+      FAS = dplyr::if_else(
+        stringr::str_sub(`Tox Monograph1`, 1, 4) == "FAS ",
+        stringr::str_sub(`Tox Monograph1`, 5),
+        ""
+      ),
+      FAS = stringr::str_split(FAS, "/", simplify = TRUE)[, 1],
+      FAS = stringr::str_split(FAS, "-", simplify = TRUE)[, 1],
       CAS.number = `CAS number`,
       Functional.Class = `Functional Class`,
       Chemical.Names = `Chemical Names`,

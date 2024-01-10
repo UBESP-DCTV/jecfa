@@ -23,7 +23,7 @@ share_objects <- function(obj_list, last = TRUE) {
       lubridate::now() |>
         stringr::str_remove_all("\\W") |>
         stringr::str_sub(1, 12),
-      "_"
+      "_",
       file_name
     )
   }
