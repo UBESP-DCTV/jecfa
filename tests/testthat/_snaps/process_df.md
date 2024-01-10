@@ -50,6 +50,6 @@
     "https://apps.who.int/food-additives-contaminants-jecfa-database/Home/Chemical/5", 
     "https://apps.who.int/food-additives-contaminants-jecfa-database/Home/Chemical/6", 
     "https://apps.who.int/food-additives-contaminants-jecfa-database/Home/Chemical/7"
-    ), FAS = c("24", "48", "40", "50", "50", "50", "59")), class = "data.frame", row.names = c(NA, 
-    -7L))
+    ), FAS = c("24", "48", "40", "50", "50", "50", "59")), row.names = c(NA, 
+    -7L), class = c("tbl_df", "tbl", "data.frame"))
 

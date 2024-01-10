@@ -21,7 +21,7 @@ list.files(here("R"), pattern = "\\.R$", full.names = TRUE) |>
 ```
 
 ```{r scraping}
-jecfa_raw <- create_df()
+jecfa_raw <- create_df(n = 7)
 ```
 
 ```{r processing}
