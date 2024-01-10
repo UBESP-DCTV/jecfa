@@ -1,5 +1,5 @@
 ---
-title: "Web scraping - Jecfa"
+title: "Web scraping - JECFA"
 output: html_document
 date: "2023-12-04"
 ---
@@ -10,143 +10,26 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Web scraping JECFA 
 The provided code iterates through a range of numbers (1 to 7000) to scrape data from specific URLs. It constructs URLs, reads HTML content, and retrieves relevant information from web pages. The code scrapes details related to chemicals from the [Evaluations of the Joint FAO/WHO Expert Committee on Food Additives (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/), captures evaluation reports, links, and other data points. Using error handling, it ensures continued execution even if errors occur during the scraping process, printing any encountered errors. Ultimately, it compiles the gathered data into a dataframe and cleans it by removing empty variables and duplicates. The final dataframe consists of 6525 rows.
 
-```{r, echo = FALSE, eval = FALSE, include=FALSE}
-
-# Load necessary libraries
-library(rvest)
-library(httr)
+```{r packages, include=FALSE}
 library(tidyverse)
-
-# Initialize an empty dataframe
-df <- data.frame()
-
-
-# Loop through a range (1 to 7000)
-for (i in 1:7000) {
-  
-  tryCatch({
-  
-    # Construct URL
-    URL <- paste0("https://apps.who.int/food-additives-contaminants-jecfa-database/Home/Chemical/", i)
-    
-    # Read page content
-    page <- try(read_html(URL), silent = FALSE)
-    
-    if (!inherits(page, "try-error")) {
-      # Scraping data
-      content <- html_nodes(page, '.sf-content-block.content-block')
-      reports <- html_nodes(content[[2]], '.row')
-      data <- html_nodes(content[[1]], '.detail.who-team')
-
-      # Initialize a list to store data
-      chem_dict <- list()
-
-      # Find evaluations and links
-      link1 <- c()
-      report_names <- c()
-      report_name <- c()
-      
-      for (report in reports) {
-        report_name <- c(report_name, sub("\\s*\\:.*", "", html_text(html_nodes(report, 'div')[1])))
-        
-        link <- html_node(report, 'a')
-        link1 <- c(link1, html_attr(link, 'href'))
-
-        report_names <- c(report_names, str_trim(html_text(html_nodes(report, 'div')[2])))
-
-      }
-  
-      # Check if report_name is not NULL
-      if (!is.null(report_name)) {
-        suffix <- ave(report_name, report_name, FUN = function(x) seq_along(x)) 
-        
-        for (repp in 1:length(report_name)) {
-          chem_dict[[paste0(report_name[repp], suffix[repp])]] <- report_names[repp]
-          chem_dict[[paste0(report_name[repp],'_sourcelink', suffix[repp])]] <- link1[repp]
-        }
-      }
-
-      # Process additional data
-      for (datum in data) {
-        datum <- html_nodes(datum, 'div')
-        chem_dict[[html_text(datum[1])]] <- str_split(html_text(datum[2]), '\\|br\\|') %>% unlist()
-      }
-
-      # Extract Evaluation year
-      search <- 'Evaluation year:'
-      h = 0
-      for (cont in html_nodes(content[[2]], 'h4')) {
-        if (search %in% str_sub(html_text(cont), 1, 16)) { 
-          h = h + 1
-          chem_dict[[paste0('Evaluation year', h)]] <- str_sub(html_text(cont), -4)
-        }
-      }
-      
-      # Extract JECFA_name
-      chem_dict[['JECFA_name']] <- str_trim(html_text(html_node(page, 'div.dynamic-content__heading')))
-      chem_dict[['index']] <- i
-      chem_dict[['URL']] <- URL
-
-    }      
-    
-    # Append to the dataframe and remove empty variables
-    df <- bind_rows(df, chem_dict)
-    df_clean <- df[, colSums(is.na(df)) < nrow(df)] %>% distinct()
-
-  }, error = function(e) {
-    print(e)
-  })
-}
-
-saveRDS(df_clean, file = "jecfaraw.rds")
-
+library(here)
 ```
- 
-```{r, echo = FALSE}
 
- # Dataframe manipulation
-
-jecfa2 <- readRDS("jecfaraw.rds") %>%
-  mutate(
-#    JECFA_name = str_trim(str_replace_all(JECFA_name, '\n', '')),
-    FAS = ifelse(str_sub(`Tox Monograph1`, 1, 4) == 'FAS ', str_sub(`Tox Monograph1`, 5), ''),
-    FAS = str_split(FAS, '/', simplify = TRUE)[, 1],
-    FAS = str_split(FAS, '-', simplify = TRUE)[, 1],
-    CAS.number = `CAS number`,
-    Functional.Class = `Functional Class`,
-    Chemical.Names = `Chemical Names`,
-    JECFA.number = `JECFA number`, 
-    COE.number = `COE number`, 
-    FEMA.number = `FEMA number`,
-    Report = Report1,
-    Report_sourcelink = `Report_sourcelink1`,
-    Tox.Monograph = `Tox Monograph1`, 
-    Tox.Monograph_sourcelink = `Tox Monograph_sourcelink1`,
-    Specification = Specification1, 
-    Specification_sourcelink = `Specification_sourcelink1`,
-    Evaluation.year = `Evaluation year1`,
-    .keep = "unused"
-  ) %>%
-  select(
-    Report, 
-    Report_sourcelink,
-    Tox.Monograph, 
-    Tox.Monograph_sourcelink,
-    Specification, 
-    Specification_sourcelink,
-    Synonyms, 
-    CAS.number, 
-    Functional.Class,
-    Evaluation.year, 
-    Chemical.Names,
-    JECFA.number, 
-    COE.number, 
-    FEMA.number,
-    JECFA_name, 
-    URL, 
-    FAS
-  )
-
-saveRDS(jecfa2, file = "jecfa2.rds")
-
+```{r functions, include=FALSE}
+list.files(here("R"), pattern = "\\.R$", full.names = TRUE) |> 
+  walk(source)
 ```
+
+```{r scraping}
+jecfa_raw <- create_df()
+```
+
+```{r processing}
+jecfa <- process_df(jecfa_raw)
+```
+
+```{r saving}
+write_rds(jecfa_raw, file = here("data-raw", "jecfa_raw.rds"))
+write_rds(jecfa, file = here("output", "jecfa.rds"))
+```
+

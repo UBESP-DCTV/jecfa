@@ -1,0 +1,27 @@
+Package: jecfa
+Title: Web Scraping JECFA
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+      person("Ileana", "Baldi", , "ileana.baldi@ubep.unipd.it", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8578-9164")),
+      person("Corrado", "Lanera", , "corrado.lanera@ubep.unipd.it", role = c("ctb"),
+           comment = c(ORCID = "0000-0002-0520-7428"))
+    )
+Description: scrapes details related to chemicals from the [Evaluations of the Joint FAO/WHO Expert Committee on Food Additives (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/), captures evaluation reports, links, and other data points.
+License: file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    dplyr,
+    here,
+    purrr,
+    rvest,
+    stringr
+Suggests: 
+    checkmate,
+    devtools,
+    testthat (>= 3.0.0),
+    tidyverse
+Config/testthat/edition: 3
