@@ -24,10 +24,13 @@ Suggests:
     checkmate,
     devtools,
     lintr,
+    qs,
     readr,
     spelling,
     tarchetypes,
     targets,
     testthat (>= 3.0.0),
-    tidyverse
+    tidyverse,
+    usethis,
+    visNetwork
 Config/testthat/edition: 3

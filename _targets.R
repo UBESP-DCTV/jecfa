@@ -1,5 +1,5 @@
 library(targets)
-library(tarchetypes) # Load other packages as needed.
+library(tarchetypes)
 library(here)
 
 tar_option_set(
@@ -25,7 +25,7 @@ list(
 # Report ----------------------
   tar_render(
     jecfa_ws,
-    here("jecfa_ws.Rmd")
+    here("report/jecfa_ws.Rmd")
   ),
 
 # Share -----------------------
@@ -38,7 +38,10 @@ list(
   ),
   tar_target(
     shareOutputNow,
-    share_objects(objectToShare, last = FALSE),
+    share_objects(
+      objectToShare,
+      last = FALSE
+    ),
     format = "file",
     pattern = map(objectToShare)
   ),

@@ -1,0 +1,10 @@
+ # this is the dockerignore file for the image of the master ML @UniPD
+
+.git
+Dockerfile
+Makefile
+.gitignore
+renv/library
+renv/staging
+# renv.lock
+# .Rprofile
