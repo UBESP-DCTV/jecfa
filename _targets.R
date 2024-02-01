@@ -13,22 +13,70 @@ tar_source()
 # Targets ---------------------
 list(
   tar_target(
+    name = jecfa_ids,
+    command = seq_len(30)
+  ),
+
+  tar_target(
+    name = jecfa_list,
+    command = compose_jecfa_list(jecfa_ids),
+    pattern = map(jecfa_ids),
+    iteration = "list"
+  ),
+
+  tar_target(
+    name = jecfa_kos,
+    command = get_error(jecfa_list),
+    pattern = map(jecfa_list),
+    iteration = "list"
+  ),
+
+  tar_target(
+    name = jecfa_oks,
+    command = get_result(jecfa_list),
+    pattern = map(jecfa_list),
+    iteration = "list"
+  ),
+
+
+  tar_target(
     name = jecfa_raw,
-    command = create_df(n = 7)
+    command = create_df(jecfa_oks)
   ),
   tar_target(
     name = jecfa,
     command = process_df(jecfa_raw)
   ),
+  tar_target(
+    name = jecfa_augmented,
+    command = add_metadata(jecfa)
+  ),
 
+  # Tables ----------------------
+  tar_target(
+    name = tbl1,
+    command = compose_tbl1(jecfa_augmented)
+  ),
+  tar_target(
+    name = tbl2,
+    command = compose_tbl2(jecfa_augmented)
+  ),
+  tar_target(
+    name = tbl3,
+    command = compose_tbl3(jecfa_augmented)
+  ),
+  tar_target(
+    name = tbl4,
+    command = compose_tbl4(jecfa_augmented)
+  ),
 
-# Report ----------------------
+  # Report ----------------------
   tar_render(
     jecfa_ws,
     here("report/jecfa_ws.Rmd")
   ),
 
-# Share -----------------------
+  # Share -----------------------
   tar_target(
     objectToShare,
     list(

@@ -1,21 +1,26 @@
-create_df <- function(n = 7000) {
-  ids <- seq_len(n)
+compose_jecfa_list <- function(jecfa_id) {
   get_chemical_safe <- purrr::safely(get_chemical)
-  res <- purrr::map(ids, get_chemical_safe)
-  res_ok <- purrr::keep(res, ~ !is.null(.x$result))
+  res <- get_chemical_safe(jecfa_id)
 
-  purrr::keep(res, ~ is.null(.x$result)) |>
-    print_ko()
+  if (is.null(res$result)) {
+    print(res$error)
+  }
 
-  res_ok |>
-    purrr::map("result") |>
-    purrr::list_rbind() |>
-    janitor::remove_empty("cols")
+  res
 }
 
-print_ko <- function(kos) {
-  purrr::map_chr(kos, "error") |>
-    print()
+get_error <- function(x) {
+  x[["error"]]
+}
+
+get_result <- function(x) {
+  x[["result"]]
+}
+
+create_df <- function(jecfa_list) {
+  jecfa_list |>
+    purrr::list_rbind() |>
+    janitor::remove_empty("cols")
 }
 
 get_chemical <- function(id) {
