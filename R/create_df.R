@@ -9,14 +9,6 @@ compose_jecfa_list <- function(jecfa_id) {
   res
 }
 
-get_error <- function(x) {
-  x[["error"]]
-}
-
-get_result <- function(x) {
-  x[["result"]]
-}
-
 create_df <- function(jecfa_list) {
   jecfa_list |>
     purrr::list_rbind() |>

@@ -1,25 +1,41 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-add_metadata|function|675db3363717049f|||||||||||||||
+add_metadata|function|0a8a290b3333c9ce|||||||||||||||
+check_missing_url|function|b837372de26146cb|||||||||||||||
+check_tox_condition|function|0781d5f4b3c401e5|||||||||||||||
+check_valid_url|function|8533963af49b9eb4|||||||||||||||
+compose_filepaths|function|a349db4e4e43b522|||||||||||||||
 compose_jecfa_list|function|bed05d086928d85f|||||||||||||||
 compose_tbl1|function|47130b41a89aa794|||||||||||||||
 compose_tbl2|function|ff553348a4d9b884|||||||||||||||
 compose_tbl3|function|cb4673b4a040b823|||||||||||||||
 compose_tbl4|function|9e9be0a8f0c43554|||||||||||||||
+compose_url|function|cd8d267227fe0260|||||||||||||||
+compose_urls|function|7e5c562ce5ba90aa|||||||||||||||
 create_df|function|0d74a411e6eaed17|||||||||||||||
+download_trs|function|3a43c5191b685f30|||||||||||||||
+extract_filename|function|c68f816dbc1a6b45|||||||||||||||
 extract_initial_part|function|3f6fabb122a05216|||||||||||||||
 extract_initial_partII|function|74ed0f1f70227016|||||||||||||||
 extract_initial_partIII|function|fb0a226c6e8d8203|||||||||||||||
+extract_jecfa_report_clean|function|ef741b4e66511b07|||||||||||||||
 extract_jecfa_tox_abbr|function|b10b243053d2277e|||||||||||||||
+fnm_iter|stem||61b24b79f2f42da1|ef46db3751d8e999|2019893044||t19756.7562712378s||0|qs|local|vector|||0.03||could not find function compose_filepaths
 get_chemical|function|f778f025007c7ee7|||||||||||||||
 get_error|function|cc8684256009c59b|||||||||||||||
+get_filename|function|650d1e25bcda741a|||||||||||||||
 get_input_data_path|function|f3df123f5948ed41|||||||||||||||
 get_JECFA_name|function|d3655adb6437c130|||||||||||||||
 get_jecfa_type|function|a6c9e9ede2dd1a68|||||||||||||||
 get_jecfa_url_parts|function|fd016c730d42ab2d|||||||||||||||
 get_output_data_path|function|22b601ec06c74eef|||||||||||||||
 get_result|function|9038b9614abe723c|||||||||||||||
+get_url|function|2fbc9949b51411a1|||||||||||||||
+is_missing_url|function|1f3fc74a457d2775|||||||||||||||
+is_tox_condition_satisfied|function|bf500d5ed67378d4|||||||||||||||
+is_valid_id|function|d3a39e9adcbc9247|||||||||||||||
+is_valid_url|function|69401cfd1da16224|||||||||||||||
 jecfa|stem|eb5f90a29107096f|3b6036694b6e4e70|43c4b83cd5e10576|-1874339667||t19754.484887601s|b93e841e390b6b58|3481|qs|local|vector|||0.07||
-jecfa_augmented|stem|5a4a27c9ab0b4d1e|a6bc85b4815c89c0|c1fe64d376572e13|885699526||t19754.4848880187s|eb392d322a5afa30|3701|qs|local|vector|||0.02||
+jecfa_augmented|stem|983dfffa8ad56384|a6bc85b4815c89c0|2b89f6b863568f01|885699526||t19755.4979644359s|d28b210937c7ee6d|3714|qs|local|vector|||0.01||
 jecfa_ids|stem|bf206957586302e1|2d6969d0759f610b|ef46db3751d8e999|-1849988115||t19754.4848228428s|dff9495c51b724c1|77|qs|local|vector||jecfa_ids_ccba877f*jecfa_ids_084b9b29*jecfa_ids_91e9ed7e*jecfa_ids_0af15e67*jecfa_ids_06d3c0ed*jecfa_ids_280e29c8*jecfa_ids_37587497*jecfa_ids_ad604bd2*jecfa_ids_320243db*jecfa_ids_9641ec09*jecfa_ids_d500f9c0*jecfa_ids_170ec988*jecfa_ids_e79babee*jecfa_ids_dde3c9ca*jecfa_ids_ae302644*jecfa_ids_b0679186*jecfa_ids_af0a2489*jecfa_ids_10c72e30*jecfa_ids_4590460b*jecfa_ids_68cb3bc1*jecfa_ids_6ffb9cf9*jecfa_ids_7c207fec*jecfa_ids_2092be54*jecfa_ids_834fb9c2*jecfa_ids_e5a4ca68*jecfa_ids_f63a2404*jecfa_ids_b0750a3c*jecfa_ids_1553c4a3*jecfa_ids_f9ae2387*jecfa_ids_e10a1d19|0||
 jecfa_kos|pattern|f55f679b27c9ae31|86c71efd92ee7533||-1731644506||||570|qs|local|list||jecfa_kos_186eeec6*jecfa_kos_71433abe*jecfa_kos_083d9386*jecfa_kos_3c089680*jecfa_kos_16dee1cf*jecfa_kos_74a3367c*jecfa_kos_0717be81*jecfa_kos_71df3cee*jecfa_kos_263410d2*jecfa_kos_037bcd03*jecfa_kos_0a32566b*jecfa_kos_e90acca2*jecfa_kos_ec1c23cb*jecfa_kos_e6f20ba3*jecfa_kos_5939cddd*jecfa_kos_fc1510f9*jecfa_kos_48aaac21*jecfa_kos_3d6594d5*jecfa_kos_59882889*jecfa_kos_545a3617*jecfa_kos_10f8c764*jecfa_kos_70fc331e*jecfa_kos_5e280032*jecfa_kos_76994c70*jecfa_kos_28472854*jecfa_kos_90649753*jecfa_kos_55fcff65*jecfa_kos_67fdb531*jecfa_kos_369876df*jecfa_kos_31458632|0||
 jecfa_kos_037bcd03|branch|6dd71d12008128c1|86c71efd92ee7533|bb8028eb754bb510|959085178||t19754.4770184215s|de1c6d017cb4e8a8|38|qs|local|list|jecfa_kos||0||
@@ -146,9 +162,13 @@ jecfa_oks_fb52c0fe|branch|6dd71d12008128c1|982abdec444982c4|3bb4520d91345ca4|-11
 jecfa_oks_fc1510f9|branch|21d246b39c72face|982abdec444982c4|c041bcf7bc89178c|-1848173120||t19754.4848824046s|a5a86413f31d72cc|1905|qs|local|list|jecfa_oks||0||
 jecfa_raw|stem|102e360a89ffec5e|56b29f6332fbe6e3|4ec056949a538172|-1769760162||t19754.4848867909s|8b9a29a5ea833366|9400|qs|local|vector|||0.16||
 jecfa_ws|stem|5efb3632d9169201|d432343cb948c8df|f0864c2a4ff20a2f|-1525426244|report/jecfa_ws.html*report/jecfa_ws.Rmd|t19754.4849052144s|89de9cd0e125ee60|857915|file|local|vector|||1.55||
+my_tar_download|function|13443f95f4d4b9cb|||||||||||||||
 objectToShare|stem|2ac3471f40fa4a29|2992bf806f089196|a8335910ca7eba64|219881242||t19754.4848907777s|c0445d434d4030f8|9582|qs|local|vector||objectToShare_1500db05*objectToShare_57e1b1cb|0||
 print_ko|function|c5605a22d09683ed|||||||||||||||
 process_df|function|e334f2f469e05167|||||||||||||||
+remove_null_urls|function|7fdcfcb9c804e34f|||||||||||||||
+remove_nulls|function|f04e867abf95b458|||||||||||||||
+sanitize_file_name|function|a1402348b31b9572|||||||||||||||
 share_objects|function|6b57109ac7bb4826|||||||||||||||
 shareOutput|pattern|e39be0fec141c296|0cbc06ed081795e3||-1861327150||||76297|file|local|vector||shareOutput_2c2aa1d4*shareOutput_1aff0b34|0||
 shareOutput_14afd5d8|branch|f6177293081ed543|0cbc06ed081795e3|b9d93d273efec0f7|1464097337|C:\Users\corra\OneDrive\R\R-support\IB\jecfa\output\jecfa_raw.rds|t19732.5933130614s|93f47a9841febd0a|8204|file|local|vector|shareOutput||0||
@@ -166,7 +186,99 @@ shareOutputNow_2cda357f|branch|ef87ab4269c6d2ac|8bac7813c53ccddb|e1d51f7a1067b4c
 shareOutputNow_2e6fcf52|branch|651a18953e6a8c19|8bac7813c53ccddb|e1d51f7a1067b4c9|-240137120|C:\Users\corra\Documents\GitHub\ubep\jecfa\output\202401311859_jecfa_raw.rds|t19753.7499863838s|5a90952314ca0897|8253|file|local|vector|shareOutputNow||0.02||
 shareOutputNow_ac95ff0a|branch|b602cf5466e41fde|8bac7813c53ccddb|e1d51f7a1067b4c9|-1959596034|C:\Users\corra\Documents\GitHub\ubep\jecfa\output\202401311859_jecfa.rds|t19753.7499867036s|386aa81a32ed58d1|5088|file|local|vector|shareOutputNow||0||
 shareOutputNow_f71d12e3|branch|6e269b81180c31b9|8bac7813c53ccddb|e1d51f7a1067b4c9|-412973852|C:\Users\corra\Documents\GitHub\ubep\jecfa\output\202402011212_jecfa.rds|t19754.4670168192s|8d5a910a282e14e6|9877|file|local|vector|shareOutputNow||0||
-tbl1|stem|44b67fda99ece9d2|36362a780773e4b4|d179c6a98c1aca87|-1943001236||t19754.4849159155s|b0afa457cca37a05|8198|qs|local|vector|||0.57||
-tbl2|stem|cdcec98d8d02d030|df9374be41c43248|95d1f40ed39f3f7d|2081298481||t19754.4849186662s|0d0d9f9751fe6c55|8080|qs|local|vector|||0.22||
-tbl3|stem|f1b1f49bff719802|e573f34926832877|82a9803cab2e463b|-1755737591||t19754.4849270887s|badaab8386bebee4|8050|qs|local|vector|||0.71||
-tbl4|stem|a46dd6b83056b4ec|6d935c9517b5e394|4dd8a74faa155416|-1641085800||t19754.4849304177s|93cecb884f5c201f|7955|qs|local|vector|||0.28||
+tbl1|stem|f65a6c42e9d8966b|36362a780773e4b4|2c9ff6017cdade54|-1943001236||t19755.4979763222s|4bc245882df05e3c|8209|qs|local|vector|||0.76||
+tbl2|stem|6826f60b2d012c52|df9374be41c43248|4d2ae927eb5eed0e|2081298481||t19755.4979785853s|4b40638302364791|8095|qs|local|vector|||0.17||
+tbl3|stem|d825a90a452e4da9|e573f34926832877|6fe0e90836b6a81b|-1755737591||t19755.4979883892s|8a31fe0bd79335e4|8065|qs|local|vector|||0.82||
+tbl4|stem|183efbfbaf1d196f|6d935c9517b5e394|b436239c049c3f7a|-1641085800||t19755.4979908662s|37af6ec94ad72ffc|7968|qs|local|vector|||0.18||
+trsDownload|pattern|b62053487a0a98e4|5f93f8b84cc2a4d7||-1331253503||||9179124|file|local|vector||trsDownload_f97a1e66*trsDownload_882ce99b*trsDownload_8edfc3ac*trsDownload_2b691be8*trsDownload_9817836d*trsDownload_7505774b|10.58||
+trsDownload_2b691be8|branch|0f9f715dc9ade80e|5f93f8b84cc2a4d7|460643189fbfa59e|-1952301607|C:/Users/corra/Documents/GitHub/ubep/jecfa/data/TRS/16-TRS_940.pdf|t19756.7689497158s|3d5bc676c0af9204|1288181|file|local|vector|trsDownload||1.84||
+trsDownload_7505774b|branch|6f149ed20e14e481|5f93f8b84cc2a4d7|460643189fbfa59e|-1680102841|C:/Users/corra/Documents/GitHub/ubep/jecfa/data/TRS/25-NMRS_38.pdf|t19756.7689951578s|1e99a2da54d685f8|1044988|file|local|vector|trsDownload||1.96||
+trsDownload_882ce99b|branch|6f149ed20e14e481|5f93f8b84cc2a4d7|460643189fbfa59e|2061446527|C:/Users/corra/Documents/GitHub/ubep/jecfa/data/TRS/11-NMRS_38.pdf|t19756.7689047021s|1e99a2da54d685f8|1044988|file|local|vector|trsDownload||1.73||
+trsDownload_8edfc3ac|branch|6f149ed20e14e481|5f93f8b84cc2a4d7|460643189fbfa59e|1556242272|C:/Users/corra/Documents/GitHub/ubep/jecfa/data/TRS/12-NMRS_38.pdf|t19756.768927922s|1e99a2da54d685f8|1044988|file|local|vector|trsDownload||2||
+trsDownload_9817836d|branch|6f149ed20e14e481|5f93f8b84cc2a4d7|460643189fbfa59e|189962890|C:/Users/corra/Documents/GitHub/ubep/jecfa/data/TRS/24-NMRS_38.pdf|t19756.7689723513s|1e99a2da54d685f8|1044988|file|local|vector|trsDownload||1.94||
+trsDownload_f97a1e66|branch|7d3206f9a262a0ef|5f93f8b84cc2a4d7|460643189fbfa59e|-1634739553|C:/Users/corra/Documents/GitHub/ubep/jecfa/data/TRS/10-TRS_868.pdf|t19756.7688844082s|a1a199e65cd4de63|3710991|file|local|vector|trsDownload||2.36||
+trsPaths|stem|f6e5e3c1d1d733fa|189b6c954ebe4849|cf3cc68cabecd730|-687682227||t19756.761403811s|6935d04907feb3d2|146|qs|local|vector||trsPaths_e70d56fb*trsPaths_15d5bd50*trsPaths_70d08a78*trsPaths_09ea0cf7*trsPaths_ee442f5d*trsPaths_f56b23e8|0||
+trsUrls|stem|4c196671aa49dfd8|21f46d61817b9ad7|3c6c9a29e25042e0|-107493547|https://apps.who.int/iris/bitstream/10665/41962/1/WHO_TRS_868.pdf*https://apps.who.int/iris/bitstream/10665/40627/1/WHO_TRS_309.pdf*https://apps.who.int/iris/bitstream/10665/40627/1/WHO_TRS_309.pdf*https://apps.who.int/iris/bitstream/10665/43592/1/WHO_TRS_940_eng.pdf*https://apps.who.int/iris/bitstream/10665/40627/1/WHO_TRS_309.pdf*https://apps.who.int/iris/bitstream/10665/40627/1/WHO_TRS_309.pdf|t19756.7614038891s||0|url|local|vector||trsUrls_0ef8914a*trsUrls_7750a385*trsUrls_7750a385_1*trsUrls_053e8672*trsUrls_7750a385_2*trsUrls_7750a385_3|0||
+trsUrls_12d39276|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-1327704269||t19755.7513514714s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_12d39276. Could not resolve host NA
+trsUrls_12e5aa19|branch|1eb1bc8d77111ded|9b8cb725187ef50b|ba2b5d2145c8ae7d|2125353702||t19755.7864465377s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_12e5aa19. Could not resolve host NA
+trsUrls_141378bb|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|45891708||t19755.7513440983s||0|url|local|vector|trsUrls||0.1||could not check target trsUrls_141378bb. no internet
+trsUrls_35112bde|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-333056559||t19755.7513554334s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_35112bde. Could not resolve host NA
+trsUrls_3b783039|branch|1eb1bc8d77111ded|9b8cb725187ef50b|1834735821f66c8e|-1489742544||t19755.7864405619s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_3b783039. Could not resolve host NA
+trsUrls_4d8ecb1c|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-1828323922||t19755.7513433527s||0|url|local|vector|trsUrls||0.02||could not check target trsUrls_4d8ecb1c. no internet
+trsUrls_4e5ba375|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|388968403||t19755.7513442954s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_4e5ba375. no internet
+trsUrls_53ffa9a3|branch|1eb1bc8d77111ded|9b8cb725187ef50b|28f19c03978ce38e|1586387819||t19755.7864435024s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_53ffa9a3. Could not resolve host NA
+trsUrls_5f35ca0c|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|1913234733||t19755.7513519842s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_5f35ca0c. Could not resolve host NA
+trsUrls_5f662162|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-542931338||t19755.7513521782s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_5f662162. Could not resolve host NA
+trsUrls_624907c3|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|583797090||t19755.7513439489s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_624907c3. no internet
+trsUrls_75e05d57|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-100737662||t19755.7513483084s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_75e05d57. no internet
+trsUrls_7c041422|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-1938318647||t19755.7513476116s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_7c041422. no internet
+trsUrls_8056a821|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|714201639||t19755.7513401897s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_8056a821. no internet
+trsUrls_85f01cd8|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|306184027||t19755.7513512148s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_85f01cd8. Could not resolve host NA
+trsUrls_8c9bdce4|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|478344955||t19755.7513445037s||0|url|local|vector|trsUrls||0.02||could not check target trsUrls_8c9bdce4. no internet
+trsUrls_93fdc8ae|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|1126641904||t19755.751343148s||0|url|local|vector|trsUrls||0.02||could not check target trsUrls_93fdc8ae. no internet
+trsUrls_95834121|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-193023126||t19755.7513437746s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_95834121. no internet
+trsUrls_9884f383|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-253568697||t19755.7513477843s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_9884f383. no internet
+trsUrls_9ab7a547|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|258148437||t19755.7513403081s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_9ab7a547. no internet
+trsUrls_a5f14e28|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|661800939||t19755.7513526879s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_a5f14e28. Could not resolve host NA
+trsUrls_a872c2c3|branch|1eb1bc8d77111ded|9b8cb725187ef50b|083bcfe06025c5af|1809959280||t19755.7864404791s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_a872c2c3. Could not resolve host NA
+trsUrls_ac94ccef|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-1567984500||t19755.7513480386s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_ac94ccef. no internet
+trsUrls_b116cf34|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-772952507||t19755.7513525272s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_b116cf34. Could not resolve host NA
+trsUrls_b1d1f5c5|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-642342825||t19755.751348137s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_b1d1f5c5. no internet
+trsUrls_b398f34e|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-2097042801||t19755.7513517997s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_b398f34e. Could not resolve host NA
+trsUrls_b5ec9fb3|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|947406112||t19755.7513484193s||0|url|local|vector|trsUrls||0.11||could not check target trsUrls_b5ec9fb3. no internet
+trsUrls_b63dace9|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|1606023809||t19755.7513445809s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_b63dace9. no internet
+trsUrls_bc955341|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|788066236||t19755.7513435762s||0|url|local|vector|trsUrls||0.01||could not check target trsUrls_bc955341. no internet
+trsUrls_c5634346|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|470794990||t19755.7513479163s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_c5634346. no internet
+trsUrls_c8905643|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|1605456812||t19755.7513443903s||0|url|local|vector|trsUrls||0.05||could not check target trsUrls_c8905643. no internet
+trsUrls_c9fc8f58|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-1731525174||t19755.7513485249s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_c9fc8f58. Could not resolve host NA
+trsUrls_d7bc01ae|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|1477124892||t19755.7513516269s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_d7bc01ae. Could not resolve host NA
+trsUrls_ea6a378d|branch|1eb1bc8d77111ded|97500100b02abace|ef46db3751d8e999|-868395348||t19755.7513482206s||0|url|local|vector|trsUrls||0.03||could not check target trsUrls_ea6a378d. no internet
+trsUrls_fc047457|branch|1eb1bc8d77111ded|9b8cb725187ef50b|41d0a766529461e8|1881287790||t19755.7864406534s||0|url|local|vector|trsUrls||0.07||could not check target trsUrls_fc047457. Could not resolve host NA
+trsUrls_fcdecfaf|branch|1eb1bc8d77111ded|9b8cb725187ef50b|0809a094ca47ccff|-1754431818||t19755.7864466522s||0|url|local|vector|trsUrls||0.04||could not check target trsUrls_fcdecfaf. Could not resolve host NA
+url_iter|stem|31b79ba3cc39ecbc|1fb6b2ecc2a735be|7fd01f6b3f564fff|498678726||t19756.7454867625s|aa4b28cd19784daa|145|qs|local|vector|||0||
+url_iter_08e66669|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-766431025||t19756.7438219902s|de1c6d017cb4e8a8|38|qs|local|vector|url_iter||0||
+url_iter_0bf3587c|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-676870629||t19755.7877870545s||38|qs|local|vector|url_iter||0.02||could not load dependencies of target url_iter_0bf3587c. Expecting a single string value typecharacter extent0.
+url_iter_0f356dab|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-518860580||t19755.7877862191s||38|qs|local|vector|url_iter||0.01||could not load dependencies of target url_iter_0f356dab. Expecting a single string value typecharacter extent0.
+url_iter_2133679b|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|403322318||t19756.7438223603s|de1c6d017cb4e8a8|38|qs|local|vector|url_iter||0||
+url_iter_26adb436|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-1487690273||t19756.7438225339s|de1c6d017cb4e8a8|38|qs|local|vector|url_iter||0||
+url_iter_41982466|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-1558005285||t19755.7877865335s||38|qs|local|vector|url_iter||0.01||could not load dependencies of target url_iter_41982466. Expecting a single string value typecharacter extent0.
+url_iter_45cf5aab|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|727699714||t19755.7877868847s||38|qs|local|vector|url_iter||0.02||could not load dependencies of target url_iter_45cf5aab. Expecting a single string value typecharacter extent0.
+url_iter_51bb099a|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|1122359931||t19756.7438221582s|de1c6d017cb4e8a8|38|qs|local|vector|url_iter||0||
+url_iter_5fe8870e|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-110990194||t19756.7438224424s|de1c6d017cb4e8a8|38|qs|local|vector|url_iter||0||
+url_iter_ac863803|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|-528935776||t19755.7877856432s||38|qs|local|vector|url_iter||0.02||could not load dependencies of target url_iter_ac863803. Expecting a single string value typecharacter extent0.
+url_iter_ca83b108|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|684136183||t19756.7438222507s|de1c6d017cb4e8a8|38|qs|local|vector|url_iter||0||
+url_iter_f33a894f|branch|6dd71d12008128c1|cb3cc936c77651cf|4954fe4f40a9d01a|932557347||t19755.7877867095s||38|qs|local|vector|url_iter||0.02||could not load dependencies of target url_iter_f33a894f. Expecting a single string value typecharacter extent0.
+urls|stem|7449a73f7ab4912e|c90b5855d964932e|78a97c60eb774c28|853617106||t19756.7120757959s|d3c04794784e4c77|239|qs|local|vector|||0.28|Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping...|
+urls_list|stem|7449a73f7ab4912e|c90b5855d964932e|78a97c60eb774c28|1591776928||t19756.7613716759s|d3c04794784e4c77|239|qs|local|vector|||0.11|Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping.... Condition not satisfied, skipping...|
+urls_ok|stem|69a5ee4dca32c234|fd98d909276c144a|5b6ce1fd7dc2b842|-537404294||t19756.7613721896s|9208ff4405c91373|218|qs|local|vector|||0||
+urls_ok_12d39276|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|15934110||t19755.7841761271s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_141378bb|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|783100596||t19755.7841699809s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_28570c7c|branch|d2d8edce78a5a5d2|4e8c4c5c5838bbcf|ffee7fed185578f3|2102066302||t19755.7841747275s|4f74cbc508fbc9d3|133|qs|local|list|urls_ok||0||
+urls_ok_35112bde|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-896839637||t19755.7841808175s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0.02||
+urls_ok_420146b3|branch|e41ef26d89e4004a|4e8c4c5c5838bbcf|ffee7fed185578f3|42915650||t19755.784176611s|f02b269bc80ae470|129|qs|local|list|urls_ok||0||
+urls_ok_4d8ecb1c|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1819392839||t19755.7841693535s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_4e5ba375|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-893785941||t19755.7841701476s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_5f35ca0c|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-991081184||t19755.7841769861s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_5f662162|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-1817249180||t19755.7841800479s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_624907c3|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-1178570971||t19755.7841698387s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_75e05d57|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|822540005||t19755.7841754911s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_7c041422|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-710238409||t19755.784174262s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_8056a821|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1192145943||t19755.7841680615s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0.02||
+urls_ok_829bf012|branch|cdf9787ee7ae65b2|4e8c4c5c5838bbcf|ffee7fed185578f3|1748824172||t19755.7841706761s|f02b269bc80ae470|129|qs|local|list|urls_ok||0||
+urls_ok_85f01cd8|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1396031250||t19755.784175938s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_93fdc8ae|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-1464383120||t19755.784169199s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_95834121|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|165686910||t19755.7841696656s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_9884f383|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-699842264||t19755.7841744221s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_9ab7a547|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1955842037||t19755.7841688245s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_a5f14e28|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-1841041421||t19755.7841806268s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_b116cf34|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1078397913||t19755.7841804583s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_b1d1f5c5|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1958935703||t19755.7841750834s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_b5ec9fb3|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1052595510||t19755.7841755561s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_bc955341|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-405602662||t19755.7841695161s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_c5634346|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|-1922207275||t19755.7841746105s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_c9fc8f58|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|976803184||t19755.7841757685s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_ea6a378d|branch|f90d5d0cae9ccfe3|4e8c4c5c5838bbcf|ffee7fed185578f3|1402602561||t19755.7841753019s|de1c6d017cb4e8a8|38|qs|local|list|urls_ok||0||
+urls_ok_f4501189|branch|56443973f0c9897c|4e8c4c5c5838bbcf|ffee7fed185578f3|-1396239584||t19755.784173801s|f02b269bc80ae470|129|qs|local|list|urls_ok||0||
+urls_ok_f7651816|branch|4cd148996ac904f6|4e8c4c5c5838bbcf|ffee7fed185578f3|-218455509||t19755.784176319s|f02b269bc80ae470|129|qs|local|list|urls_ok||0.02||
+urls_ok_fcf3ef9e|branch|1be8041d418e6d0c|4e8c4c5c5838bbcf|ffee7fed185578f3|-61477503||t19755.7841703361s|f02b269bc80ae470|129|qs|local|list|urls_ok||0||
+urls_oks|stem|69a5ee4dca32c234|42db45bbfa591e2a|27984a33c149d49f|604891056||t19756.7438217377s|9208ff4405c91373|218|qs|local|vector||urls_oks_5e80af7e*urls_oks_b09db0bc*urls_oks_98a53568*urls_oks_69a351ca*urls_oks_99123ecc*urls_oks_f7f214fc|0.01||

@@ -70,6 +70,52 @@ list(
     command = compose_tbl4(jecfa_augmented)
   ),
 
+
+  # TRS -------------------------
+  tar_target(
+    urls_list,
+    command = compose_urls(jecfa_augmented)
+  ),
+
+  tar_target(
+    urls_ok,
+    command = remove_null_urls(urls_list)
+  ),
+
+  tar_target(
+    trsPaths,
+    compose_filepaths(
+      urls_ok, here::here("data/TRS")
+    )
+  ),
+
+  tar_target(
+    trsUrls,
+    command = purrr::map_chr(urls_ok, "url"),
+    format = "url",
+    resources = tar_resources(
+      url = tar_resources_url(
+        handle = curl::new_handle(
+          nobody = TRUE
+        )
+      )
+    )
+  ),
+
+  tar_target(
+    trsDownload,
+    download_trs(trsUrls, trsPaths),
+    pattern = map(trsUrls, trsPaths),
+    format = "file"
+  ),
+
+  # tar_download(
+  #   trs,
+  #   urls = url_iter,
+  #   paths =
+  # ),
+
+
   # Report ----------------------
   tar_render(
     jecfa_ws,

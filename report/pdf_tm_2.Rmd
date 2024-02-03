@@ -61,72 +61,46 @@ tar_read(tbl4)
 
 
 
-```{r, eval=F, echo=F, cache=T, message=FALSE}
-pdf_url <- "https://apps.who.int/iris/bitstream/10665/40951/1/WHO_TRS_488.pdf"
-local_path <- "C://Users/Ileana/Documents/pdf_tm/WHO_TRS_488.pdf"
-# Download the PDF file
-download.file(pdf_url, destfile = local_path, mode = "wb")
-
-
-# Report corresponding to https://www.who.int/publications/i/item/9789240068414
-
-local_path <- "C://Users/Ileana/Documents/pdf_tm/9789240068414-eng.pdf"
-# Check if the file was downloaded successfully
-if (file.exists(local_path)) {
-  # Extract text from the PDF
-  suppressMessages({
-    pdf_text <- pdf_ocr_text(local_path)
-  })
-  pdf_text_pre <- tolower(pdf_text)
-
-  # Search for a specific text in the extracted text
-  keywords <- c("dose-response", "dose response", "modelling", "modeling", "bmd", "bmr", "benchmark dose")
-  matching_pages <- vector("list", length(keywords))
-
-  for (i in seq_along(keywords)) {
-    matching_pages[[i]] <- grep(keywords[i], pdf_text_pre)
-  }
-
-  for (i in seq_along(keywords)) {
-    cat("The text '", keywords[i], "' was found on the following pages:\n")
-    cat(matching_pages[[i]], sep = ", ")
-    cat("\n\n")
-  }
-} else {
-  cat("Failed to download the PDF file.")
-}
+```{r, eval=F, echo=F}
+# pdf_url <- "https://apps.who.int/iris/bitstream/10665/40951/1/WHO_TRS_488.pdf"
+# local_path <- "C://Users/Ileana/Documents/pdf_tm/WHO_TRS_488.pdf"
+# # Download the PDF file
+# download.file(pdf_url, destfile = local_path, mode = "wb")
+# 
+# 
+# # Report corresponding to https://www.who.int/publications/i/item/9789240068414
+# 
+# local_path <- "C://Users/Ileana/Documents/pdf_tm/9789240068414-eng.pdf"
+# # Check if the file was downloaded successfully
+# if (file.exists(local_path)) {
+#   # Extract text from the PDF
+#   suppressMessages({
+#     pdf_text <- pdf_ocr_text(local_path)
+#   })
+#   pdf_text_pre <- tolower(pdf_text)
+# 
+#   # Search for a specific text in the extracted text
+#   keywords <- c("dose-response", "dose response", "modelling", "modeling", "bmd", "bmr", "benchmark dose")
+#   matching_pages <- vector("list", length(keywords))
+# 
+#   for (i in seq_along(keywords)) {
+#     matching_pages[[i]] <- grep(keywords[i], pdf_text_pre)
+#   }
+# 
+#   for (i in seq_along(keywords)) {
+#     cat("The text '", keywords[i], "' was found on the following pages:\n")
+#     cat(matching_pages[[i]], sep = ", ")
+#     cat("\n\n")
+#   }
+# } else {
+#   cat("Failed to download the PDF file.")
+# }
 
 ```
 
 ## Download the TRS - (when a FAS is not available) from Report_sourcelink present in jecfa.csv after pre-processing the Report name (n=667)
 
 ```{r, eval=F, echo=F, cache=T, message=FALSE}
-# Load required libraries
-
-jecfa$Report_clean <- ifelse(substr(jecfa$Report, 1, 2) == '">',
-  substr(jecfa$Report_clean, 3, nchar(jecfa$Report_clean)),
-  jecfa$Report
-)
-
-jecfa$Report_clean <- ifelse(substr(jecfa$Report_clean, 1, 3) %in% c("See", "see"),
-  substr(jecfa$Report_clean, 5, nchar(jecfa$Report_clean)),
-  jecfa$Report_clean
-)
-
-
-# Function to sanitize a string for use as a file name
-sanitize_file_name <- function(file_name) {
-  # Replace characters not allowed in file names with underscores
-  file_name <- gsub("[^[:alnum:]_\\.-]", "_", file_name, perl = TRUE)
-
-  # Remove leading and trailing underscores
-  file_name <- gsub("^_+|_+$", "", file_name)
-}
-
-# Create the "TRS" folder
-if (!dir.exists("TRS")) {
-  dir.create("TRS")
-}
 
 pdf_urls <- jecfa$Report_sourcelink
 
@@ -135,28 +109,9 @@ for (i in 11:length(pdf_urls)) {
   url <- pdf_urls[i]
   prefix <- as.character(i) # Prefix with the position in the original JECFA database
 
-  if (
-    !is.na(jecfa$Tox_monograph_abbr[i]) &
-      !(jecfa$Tox_monograph_abbr[i] %in% c("NOT A FAS")) &
-      !(substr(jecfa$Tox_monograph_abbr, 1, 12)[i] %in% c("NOT PREPARED"))) {
-    cat("Condition not satisfied, skipping...\n")
-    next # Skip this iteration and move to the next URL
-  }
-
-  # Check if the URL is missing or empty
-  if (is.na(url) || url == "") {
-    cat("URL missing or empty, skipping...\n")
-    next # Skip this iteration and move to the ntable(ext URL
-  }
-
-  # Check if the URL has a valid format
-  if (!grepl("^https?://", url, ignore.case = TRUE)) {
-    cat("Invalid URL format, skipping:", url, "\n")
-    next # Skip this iteration and move to the next URL
-  }
 
   # Create the file name with prefix as RefID number
-  file_name <- paste0("TRS/", prefix, "-", substr(sanitize_file_name(jecfa$Report_clean)[i], 1, 7), ".pdf")
+  
 
   # Check if the file already exists in the "TRS" folder, and if not, download it
   if (!file.exists(file_name)) {
