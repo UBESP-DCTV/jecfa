@@ -17,13 +17,18 @@ compose_url <- function(id, db) {
   list(
     url = pdf_url,
     fnm = stringr::str_glue(
-    "{id}-{extract_filename(report_clean)}.pdf"
+      "{id}-{extract_filename(report_clean)}.pdf"
+    ),
+    fnm_noid = stringr::str_glue(
+      "{extract_filename(report_clean)}.pdf"
     )
   )
 }
 
-compose_filepaths <- function(urls, dir) {
-  purrr::map_chr(urls, "fnm") |>
+compose_filepaths <- function(urls, dir, noid = FALSE) {
+  fname <- ifelse(noid, "fnm_noid", "fnm")
+
+  purrr::map_chr(urls, fname) |>
     (\(x) here::here(dir, x))()
 }
 
@@ -34,14 +39,21 @@ remove_null_urls <- function(x) {
 }
 
 
-download_trs <- function(url, path) {
+download_trs <- function(url, path, path_noid) {
+
   code <- download.file(
     url,
     path,
     quiet = TRUE,
-    mode = "w"
+    mode = "wb",
+    cacheOK = FALSE
   )
-  ifelse(code, str_glue("ERROR: {code}"), path)
+
+  if (!code) {
+    fs::file_copy(path, path_noid, overwrite = TRUE)
+  }
+
+  ifelse(code, stringr::str_glue("ERROR: {code}"), path_noid)
 }
 
 extract_filename <- function(report_clean) {

@@ -1,8 +1,8 @@
 extract_jecfa_tox_abbr <- function(tox_monograph) {
   aux <- tox_monograph |>
     sapply(extract_initial_part) |>
-    sapply(extract_initial_partII) |>
-    sapply(extract_initial_partIII)
+    sapply(extract_initial_part_bis) |>
+    sapply(extract_initial_part_ter)
 
   aux <- ifelse(
     substr(aux, 1, 3) == "See",

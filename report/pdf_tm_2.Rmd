@@ -165,124 +165,24 @@ If the download fails or if the file already exists, it logs appropriate message
 We identified 56 unique PDFs within TRS folder. 
 
 ```{r, eval=F, echo=F, cache=F, message=FALSE}
-## Identify unique PDFs within TRS folder by converting their name from RefID-xxx_yyy into xxx_yyy.pdf format
-
-# Set the path to the folder containing the Unique PDF files
-if (!dir.exists("TRS_Unique")) {
-  dir.create("TRS_Unique")
-}
-
-file.copy(from = list.files("TRS", full.names = T), to = "TRS_Unique")
-
-# Set the path to the folder containing the PDF files
-pdf_folder <- "TRS_Unique"
-
-# List all files in the folder
-pdf_files <- list.files(path = pdf_folder, pattern = "*.pdf", full.names = TRUE)
-
-# Loop through each PDF file
-for (pdf_file in pdf_files) {
-  # Extract the current file name
-  current_file_name <- basename(pdf_file)
-
-  # Split the file name by "-" to get the part after the last "-"
-  file_name_parts <- strsplit(current_file_name, "-")[[1]]
-
-  # Check if there are at least two parts (xxx-yy.pdf format)
-  if (length(file_name_parts) >= 2) {
-    # Extract the last part (yy.pdf) and create the new file name
-    new_file_name <- file_name_parts[length(file_name_parts)]
-
-    # Generate the full path for the new file name
-    new_pdf_file <- file.path(pdf_folder, new_file_name)
-
-    # Rename the file
-    file.rename(pdf_file, new_pdf_file)
-
-    # Print a message indicating the renaming
-    cat("Renamed:", current_file_name, "to", new_file_name, "\n")
-  }
-}
-
-# List the files in the folder after renaming
-cat("Files in the folder after renaming:\n")
-print(list.files(path = pdf_folder))
+tibble(
+  in_folder = here::here("data/TRS_unique") |> 
+    list.files(),
+  in_pipeline = tar_read(trsUnique) |> basename()
+) |> 
+  datatable(
+    rownames = FALSE,
+    filter = list(position = "top"),
+    caption = "Comparison of PDFs in the TRS folder and the pipeline"
+  )
 ```
+
+
+
+
 
 ## Text mining on TRS (when a FAS is not available)
 
-```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
-# Functions to call
-
-extract_initial_part <- function(input_string) {
-  split_string <- unlist(strsplit(input_string, "-"))
-  initial_part <- split_string[1]
-}
-
-# Specify the folder containing PDF files
-
-pdf_folder <- "TRS_Unique"
-
-# List all PDF files in the folder
-pdf_files <- list.files(path = pdf_folder, pattern = "*.pdf", full.names = TRUE)
-
-# Initialize or access results_list
-if (file.exists("results_list.rds")) {
-  results_list <- readRDS("results_list.rds")
-  final_results_df_temp <- do.call(rbind, results_list)
-} else {
-  results_list <- list()
-}
-
-# Define the keywords to search for
-keywords <- c("dose-response", "dose response", "modelling", "modeling", "bmd", "bmr", "benchmark dose", "benchmark-dose")
-
-# Initialize an empty data frame to store the final results
-final_results_df <- data.frame(File = character(0), stringsAsFactors = FALSE)
-
-# Initialize variables for each keyword to store the list of pages
-for (keyword in keywords) {
-  assign(keyword, list())
-}
-
-
-# DELETE TRS_102!
-
-# Loop through each PDF file in the folder
-for (pdf_file in pdf_files) {
-  # Check if the file exists
-  if (file.exists(pdf_file) & !(basename(pdf_file) %in% final_results_df_temp[, 1])) {
-    # Extract text from the PDF
-    suppressMessages({
-      pdf_text <- pdf_ocr_text(pdf_file)
-    })
-    pdf_text_pre <- tolower(pdf_text)
-
-    # Initialize a list to store matching pages for each keyword
-    matching_pages <- vector("list", length(keywords))
-
-    # Search for each keyword in the PDF text
-    for (i in seq_along(keywords)) {
-      matching_pages[[i]] <- grep(keywords[i], pdf_text_pre)
-    }
-
-    # Store the results for this PDF in the list
-    pdf_results_list <- list(File = basename(pdf_file))
-    for (i in seq_along(keywords)) {
-      keyword <- keywords[i]
-      pdf_results_list[[keyword]] <- matching_pages[[i]]
-    }
-
-    results_list[[pdf_file]] <- pdf_results_list
-    saveRDS(results_list, file = "~/Efsa_pdf_tm/Jecfa_web/results_list.rds")
-  } else {
-    cat("Failed to find the PDF file:", pdf_file, "\n")
-  }
-}
-
-# Convert the results list to a data frame with one row per PDF
-final_results_df <- do.call(rbind, results_list)
-```
 
 This code will create a data frame with one row per PDF file, and each column corresponds to a keyword and its list of page matches. The "File" column contains the file name of the PDF.
 In details:
@@ -300,134 +200,42 @@ Overall, the code automates the extraction of specific information from a collec
 It follows a **Match between JECFA refID (i.e., row names) and the TRS pdf**. 
 
 ```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
-# Set the path to the folder containing the PDF files
-pdf_folder <- "~/Efsa_pdf_tm/TRS"
-
-# List all files in the folder
-pdf_files <- list.files(path = pdf_folder, pattern = "*.pdf", full.names = TRUE)
-
-# Initialize
-RefID_vector <- numeric()
-File_vector <- character()
-
-# Loop through each PDF file
-for (pdf_file in pdf_files) {
-  # Extract the current file name
-  current_file_name <- basename(pdf_file)
-
-  # Split the file name by "-" to get the part after the last "-"
-  RefID <- as.numeric(strsplit(current_file_name, "-")[[1]][1])
-  filename <- strsplit(current_file_name, "-")[[1]][2]
-
-  # Store the information
-  RefID_vector <- c(RefID_vector, RefID)
-  File_vector <- c(File_vector, filename)
-}
-
-# Create a data frame from the vectors
-maptojecfa <- data.frame(RefID = RefID_vector, File = File_vector)
-
-
-results_list <- readRDS("~/Efsa_pdf_tm/Jecfa_web/results_list.rds")
-final_results_df <- data.frame(do.call(rbind, results_list))
-
-maptoJecfa <- merge(maptojecfa, final_results_df, by = "File")
-# saveRDS(maptoJecfa, file = "maptoJecfa.rds")
-
-df <- as.data.frame(lapply(maptoJecfa, as.character), stringsAsFactors = FALSE)
-# write.csv(df, "TRSmaptoJecfa.csv")
-
+tar_read(TRSKeywordMatching) |>
+    mutate(
+        matching_pages = matching_pages |> 
+            map_chr(str_c, collapse = ", ")
+    ) |> 
+    datatable(
+        rownames = FALSE,
+        filter = list(position = "top"),
+        caption = "Results of text mining on TRS"
+    )
 ```
 
 ## Text mining on FAS (n=73 unique FAS)
 The same procedure described for text mining TRS is applied to FAS. The only difference is in the way the pdfs are accessed.
 
 ```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
-# Functions to call
+tar_read(FASKeywordMatching) |>
+    mutate(
+        matching_pages = matching_pages |> 
+            map_chr(str_c, collapse = ", ")
+    ) |> 
+    datatable(
+        rownames = FALSE,
+        filter = list(position = "top"),
+        caption = "Results of text mining on TRS"
+    )
 
-extract_initial_part <- function(input_string) {
-  split_string <- unlist(strsplit(input_string, "-"))
-  initial_part <- split_string[1]
-}
-
-# Specify the folder containing PDF files
-
-pdf_folder <- "~/Efsa_pdf_tm/FAS/jecfa_files"
-
-
-# List all PDF files in the folder
-pdf_files <- list.files(path = pdf_folder, pattern = "*.pdf", full.names = TRUE)
-
-# Initialize or access results_list
-if (file.exists("results_list1.rds")) {
-  results_list1 <- readRDS("results_list1.rds")
-  final_results_df_temp <- do.call(rbind, results_list1)
-} else {
-  results_list1 <- list()
-}
-
-# Define the keywords to search for
-keywords <- c("dose-response", "dose response", "modelling", "modeling", "bmd", "bmr", "benchmark dose", "benchmark-dose")
-
-# Initialize an empty data frame to store the final results
-final_results_df1 <- data.frame(File = character(0), stringsAsFactors = FALSE)
-
-# Initialize variables for each keyword to store the list of pages
-for (keyword in keywords) {
-  assign(keyword, list())
-}
-
-
-
-# Loop through each PDF file in the folder
-for (pdf_file in pdf_files) {
-  # Check if the file exists
-  if (file.exists(pdf_file) & !(basename(pdf_file) %in% final_results_df_temp[, 1])) {
-    #   if (file.exists(pdf_file)) {
-    # Extract text from the PDF
-    suppressMessages({
-      pdf_text <- pdf_ocr_text(pdf_file)
-    })
-    pdf_text_pre <- tolower(pdf_text)
-
-    # Initialize a list to store matching pages for each keyword
-    matching_pages <- vector("list", length(keywords))
-
-    # Search for each keyword in the PDF text
-    for (i in seq_along(keywords)) {
-      matching_pages[[i]] <- grep(keywords[i], pdf_text_pre)
-    }
-
-    # Store the results for this PDF in the list
-    pdf_results_list1 <- list(File = basename(pdf_file))
-    for (i in seq_along(keywords)) {
-      keyword <- keywords[i]
-      pdf_results_list1[[keyword]] <- matching_pages[[i]]
-    }
-
-    results_list1[[pdf_file]] <- pdf_results_list1
-    #    saveRDS(results_list1, file = "results_list1.rds")
-  } else {
-    cat("Failed to find the PDF file:", pdf_file, "\n")
-  }
-}
-
-# Convert the results list to a data frame with one row per PDF
-final_results_df1 <- data.frame(do.call(rbind, results_list1))
 ```
+
+
 
 It follows a **match between JECFA refID and the FAS pdf **
 
 ```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
-# Prepare to link by FAS field and keeping the original row position in jecfa.csv
-jecfa$FAS <- ifelse(nchar(jecfa$FAS) > 3, substr(jecfa$FAS, 1, 2), jecfa$FAS)
 
-# Some ad hoc adjustment to link jecfa with FAS 74, FAS 60 and FAS 27
-jecfa$FAS <- ifelse(jecfa$FAS == "" & substr(jecfa$Tox_monograph_abbr, 1, 6) == "FAS 74", "74", jecfa$FAS)
-jecfa$FAS <- ifelse(jecfa$FAS == "" & substr(jecfa$Tox_monograph_abbr, 1, 6) == "FAS 60", "60", jecfa$FAS)
-jecfa$FAS <- ifelse(jecfa$FAS == "" & substr(jecfa$Tox_monograph_abbr, 1, 6) == "FAS 27", "27", jecfa$FAS)
-
-jecfa$RefID <- row.names(jecfa)
+# jecfa$RefID <- row.names(jecfa)
 
 results_list1 <- readRDS("results_list1.rds")
 final_results_df1 <- data.frame(do.call(rbind, results_list1))

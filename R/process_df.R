@@ -1,7 +1,6 @@
 process_df <- function(df_clean) {
   df_clean |>
     dplyr::mutate(
-      #    JECFA_name = str_trim(str_replace_all(JECFA_name, "\n", "")),
       FAS = dplyr::if_else(
         stringr::str_detect(`Tox Monograph1`, "^FAS .*$"),
         stringr::str_sub(`Tox Monograph1`, 5),

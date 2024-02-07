@@ -98,14 +98,14 @@ get_chemical <- function(id) {
 
   tibble::as_tibble(chem_dict) |>
     dplyr::mutate(
-      JECFA_name = get_JECFA_name(page),
+      JECFA_name = get_jecfa_name(page),
       index = id,
       URL = url
     )
 
 }
 
-get_JECFA_name <- function(page) {
+get_jecfa_name <- function(page) {
   rvest::html_node(
     page,
     "div.dynamic-content__heading"

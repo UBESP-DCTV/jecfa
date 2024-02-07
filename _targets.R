@@ -1,11 +1,17 @@
 library(targets)
 library(tarchetypes)
 library(here)
+library(crew)
 
 tar_option_set(
   packages = c("tibble"),
   format = "qs",
-  error = "continue"
+  error = "continue",
+  controller = crew_controller_local(
+    workers = 4
+  ),
+  storage = "worker",
+  retrieval = "worker"
 )
 
 tar_source()
@@ -14,7 +20,7 @@ tar_source()
 list(
   tar_target(
     name = jecfa_ids,
-    command = seq_len(30)
+    command = seq_len(35)
   ),
 
   tar_target(
@@ -85,36 +91,117 @@ list(
   tar_target(
     trsPaths,
     compose_filepaths(
-      urls_ok, here::here("data/TRS")
+      urls_ok,
+      here::here("data/TRS")
+    )
+  ),
+
+  tar_files(
+    fasPaths,
+    list.files(
+        here::here("data/FAS"),
+        pattern = "\\.pdf$",
+        full.names = TRUE
+    )
+  ),
+
+  tar_target(
+    trsPathsNoid,
+    compose_filepaths(
+      urls_ok,
+      here::here("data/TRS_unique"),
+      noid = TRUE
     )
   ),
 
   tar_target(
     trsUrls,
     command = purrr::map_chr(urls_ok, "url"),
-    format = "url",
-    resources = tar_resources(
-      url = tar_resources_url(
-        handle = curl::new_handle(
-          nobody = TRUE
-        )
-      )
-    )
+    format = "url"
   ),
 
   tar_target(
     trsDownload,
-    download_trs(trsUrls, trsPaths),
-    pattern = map(trsUrls, trsPaths),
+    download_trs(
+      trsUrls, trsPaths, trsPathsNoid
+    ),
+    pattern = map(
+      trsUrls, trsPaths, trsPathsNoid
+    ),
     format = "file"
   ),
 
-  # tar_download(
-  #   trs,
-  #   urls = url_iter,
-  #   paths =
-  # ),
+  tar_target(
+    trsUniqueAux,
+    unique(trsDownload)
+  ),
 
+  tar_target(
+    trsUnique,
+    trsUniqueAux,
+    pattern = map(trsUniqueAux),
+    format = "file"
+  ),
+
+
+  tar_target(
+    trsParsed,
+    parse_pdf(trsUnique, dpi = 75),
+    pattern = map(trsUnique),
+    iteration = "list"
+  ),
+
+  tar_target(
+    fasParsed,
+    parse_pdf(fasPaths, dpi = 75),
+    pattern = map(fasPaths),
+    iteration = "list"
+  ),
+
+  tar_target(
+    keywords,
+    c(
+      "dose-response",
+      "dose response",
+      "modelling",
+      "modeling",
+      "bmd",
+      "bmr",
+      "benchmark dose",
+      "benchmark-dose"
+    )
+  ),
+
+  tar_target(
+    FASKeywordMatching,
+    match_keywords(
+      fasPaths, fasParsed, keywords, "FAS"
+    ),
+    pattern = map(fasPaths, fasParsed)
+  ),
+
+  tar_target(
+    TRSKeywordMatching,
+    match_keywords(
+      trsUnique, trsParsed, keywords, "TRS"
+    ),
+    pattern = map(trsUnique, trsParsed)
+  ),
+
+  tar_target(
+    merged,
+    jecfa_augmented |>
+      dplyr::left_join(
+        FASKeywordMatching |>
+          mutate(
+            FAS = ifelse(
+              nchar(File) > 5,
+              substr(file, 1, 2),
+              substr(file, 1, 1)
+            )
+          )
+      ) |> unire tutto qui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ),
 
   # Report ----------------------
   tar_render(

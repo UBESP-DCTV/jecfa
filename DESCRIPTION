@@ -15,13 +15,18 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     dplyr,
+    fs,
+    gtsummary,
     here,
     janitor,
+    pdftools,
     purrr,
     rvest,
-    stringr
+    stringr,
+    usethis
 Suggests: 
     checkmate,
+    crew,
     devtools,
     lintr,
     qs,
@@ -31,6 +36,5 @@ Suggests:
     targets,
     testthat (>= 3.0.0),
     tidyverse,
-    usethis,
     visNetwork
 Config/testthat/edition: 3
