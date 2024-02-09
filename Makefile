@@ -1,4 +1,4 @@
-version := v0.2
+version := v0.3
 
 all: update
 
@@ -30,3 +30,9 @@ tag:
 
 push: tag
 	docker push -a corradolanera/jecfa
+
+up:
+	docker-compose up -d
+
+down:
+	docker-compose down

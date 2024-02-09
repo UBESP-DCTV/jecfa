@@ -41,3 +41,19 @@ share_objects <- function(obj_list, last = TRUE) {
   )
   obj_paths
 }
+
+get_url <- function(x) {
+  x[["url"]]
+}
+
+get_filename <- function(x) {
+  x[["fnm"]]
+}
+
+get_error <- function(x) {
+  x[["error"]]
+}
+
+get_result <- function(x) {
+  x[["result"]]
+}

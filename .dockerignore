@@ -1,4 +1,4 @@
- # this is the dockerignore file for the image of the master ML @UniPD
+ # this is the dockerignore file for the image of the ECDC JECFA project @UniPD
 
 .git
 Dockerfile
@@ -6,5 +6,3 @@ Makefile
 .gitignore
 renv/library
 renv/staging
-# renv.lock
-# .Rprofile
