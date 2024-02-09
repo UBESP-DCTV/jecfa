@@ -30,3 +30,9 @@ tag:
 
 push: tag
 	docker push -a corradolanera/jecfa
+
+up:
+	docker-compose up -d
+
+down:
+	docker-compose down

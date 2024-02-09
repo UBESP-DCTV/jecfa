@@ -6,6 +6,3 @@ Makefile
 .gitignore
 renv/library
 renv/staging
-# renv.lock
-# .Rprofile
-data

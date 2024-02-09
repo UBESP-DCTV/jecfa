@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  server:
+    image: "corradolanera/jecfa:latest"
+    container_name: jecfa_rstudio
+    ports:
+      - 18787:8787
+    environment:
+      - PASSWORD=jecfa
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: jecfa_targets
+        target: /home/rstudio/jecfa/_targets
+      - type: volume
+        source: jecfa_data
+        target: /home/rstudio/jecfa/data
+      - type: volume
+        source: jecfa_output
+        target: /home/rstudio/jecfa/output
+      - type: volume
+        source: jecfa_report
+        target: /home/rstudio/jecfa/report
+
+volumes:
+  jecfa_targets:
+  jecfa_data:
+  jecfa_output:
+  jecfa_report:
