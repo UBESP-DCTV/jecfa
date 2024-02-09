@@ -8,7 +8,7 @@ tar_option_set(
   format = "qs",
   error = "continue",
   controller = crew_controller_local(
-    workers = 4
+    workers = 6
   ),
   storage = "worker",
   retrieval = "worker"
@@ -96,6 +96,11 @@ list(
     )
   ),
 
+  tar_target(
+    trsMapToJecfa,
+    compose_maptojecfa(trsPaths)
+  ),
+
   tar_files(
     fasPaths,
     list.files(
@@ -103,6 +108,16 @@ list(
         pattern = "\\.pdf$",
         full.names = TRUE
     )
+  ),
+  tar_target(
+    fasMapToJecfa,
+    jecfa_augmented |>
+      dplyr::mutate(
+        file = FAS |>
+          stringr::str_extract("^\\d+") |>
+          stringr::str_c(".pdf")
+      ) |>
+      dplyr::select(file, ref_id)
   ),
 
   tar_target(
@@ -176,7 +191,11 @@ list(
     FASKeywordMatching,
     match_keywords(
       fasPaths, fasParsed, keywords, "FAS"
-    ),
+    ) |>
+      dplyr::left_join(
+        fasMapToJecfa,
+        relationship = "many-to-many"
+      ),
     pattern = map(fasPaths, fasParsed)
   ),
 
@@ -184,23 +203,81 @@ list(
     TRSKeywordMatching,
     match_keywords(
       trsUnique, trsParsed, keywords, "TRS"
-    ),
+    ) |>
+      dplyr::left_join(
+        trsMapToJecfa,
+        relationship = "many-to-many"
+      ),
     pattern = map(trsUnique, trsParsed)
   ),
 
   tar_target(
-    merged,
+    keywordMatching,
+    FASKeywordMatching |>
+      dplyr::bind_rows(TRSKeywordMatching)
+  ),
+
+  tar_target(
+    jecfa_tm_full,
     jecfa_augmented |>
       dplyr::left_join(
-        FASKeywordMatching |>
-          mutate(
-            FAS = ifelse(
-              nchar(File) > 5,
-              substr(file, 1, 2),
-              substr(file, 1, 1)
-            )
-          )
-      ) |> unire tutto qui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        keywordMatching,
+        relationship = "many-to-many"
+      ) |>
+      dplyr::distinct()
+  ),
+
+  # tables tm -------------------
+  tar_target(
+    tbl5,
+    compose_tbl5(keywordMatching)
+  ),
+
+  tar_target(
+    tbl6,
+    compose_tbl6(keywordMatching)
+  ),
+
+  tar_target(
+    tbl7,
+    compose_tbl7(keywordMatching)
+  ),
+
+  tar_target(
+    tbl8,
+    compose_tbl8(jecfa_tm_full)
+  ),
+
+  tar_target(
+    tbl9,
+    compose_tbl9(jecfa_tm_full)
+  ),
+
+  tar_target(
+    tbl10,
+    compose_tbl10(jecfa_tm_full)
+  ),
+
+
+  tar_target(
+    jecfaDistiller,
+    create_distiller_jecfa(jecfa_tm_full)
+  ),
+
+  tar_target(
+    fileUsed,
+    get_file_used(
+      jecfaDistiller, fasPaths, trsUnique
+    )
+  ),
+
+  tar_target(
+    moveUsed,
+    move_file_used(
+      fileUsed,
+      here::here("data/used")
+    ),
+    format = "file"
   ),
 
   # Report ----------------------
@@ -208,13 +285,18 @@ list(
     jecfa_ws,
     here("report/jecfa_ws.Rmd")
   ),
+  tar_render(
+    pdf_tm_2,
+    here("report/pdf_tm_2.Rmd")
+  ),
 
   # Share -----------------------
   tar_target(
     objectToShare,
     list(
       jecfa_raw = jecfa_raw,
-      jecfa = jecfa
+      jecfa = jecfa,
+      jecfa_distiller = jecfaDistiller
     )
   ),
   tar_target(

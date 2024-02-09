@@ -1,5 +1,5 @@
 compose_urls <- function(jecfa) {
-  seq_len(nrow(jecfa)) |>
+  jecfa[["ref_id"]] |>
     purrr::map(compose_url, db = jecfa)
 }
 
@@ -30,6 +30,17 @@ compose_filepaths <- function(urls, dir, noid = FALSE) {
 
   purrr::map_chr(urls, fname) |>
     (\(x) here::here(dir, x))()
+}
+
+
+compose_maptojecfa <- function(x) {
+  x <- basename(x)
+
+  tibble::tibble(
+    ref_id = stringr::str_extract(x, "^\\d+") |>
+      as.integer(),
+    file = stringr::str_remove(x, "^\\d+-")
+  )
 }
 
 remove_null_urls <- function(x) {

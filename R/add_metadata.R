@@ -10,10 +10,10 @@ add_metadata <- function(jecfa) {
         FAS != "" ~ FAS,
         # From here FAS == ""
         substr(Tox_monograph_abbr, 1, 6) == "FAS 74" ~ "74",
-        substr(Tox_monograph_abbr, 1, 6) == "FAS 60", "60",
-        substr(Tox_monograph_abbr, 1, 6) == "FAS 27", "27",
+        substr(Tox_monograph_abbr, 1, 6) == "FAS 60" ~ "60",
+        substr(Tox_monograph_abbr, 1, 6) == "FAS 27" ~ "27",
         TRUE ~ FAS
       ),
-      RefID = dplyr::row_number()
+      ref_id = dplyr::row_number()
     )
 }

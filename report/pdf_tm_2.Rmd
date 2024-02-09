@@ -58,79 +58,9 @@ tar_read(tbl3)
 tar_read(tbl4)
 ```
 
-
-
-
-```{r, eval=F, echo=F}
-# pdf_url <- "https://apps.who.int/iris/bitstream/10665/40951/1/WHO_TRS_488.pdf"
-# local_path <- "C://Users/Ileana/Documents/pdf_tm/WHO_TRS_488.pdf"
-# # Download the PDF file
-# download.file(pdf_url, destfile = local_path, mode = "wb")
-# 
-# 
-# # Report corresponding to https://www.who.int/publications/i/item/9789240068414
-# 
-# local_path <- "C://Users/Ileana/Documents/pdf_tm/9789240068414-eng.pdf"
-# # Check if the file was downloaded successfully
-# if (file.exists(local_path)) {
-#   # Extract text from the PDF
-#   suppressMessages({
-#     pdf_text <- pdf_ocr_text(local_path)
-#   })
-#   pdf_text_pre <- tolower(pdf_text)
-# 
-#   # Search for a specific text in the extracted text
-#   keywords <- c("dose-response", "dose response", "modelling", "modeling", "bmd", "bmr", "benchmark dose")
-#   matching_pages <- vector("list", length(keywords))
-# 
-#   for (i in seq_along(keywords)) {
-#     matching_pages[[i]] <- grep(keywords[i], pdf_text_pre)
-#   }
-# 
-#   for (i in seq_along(keywords)) {
-#     cat("The text '", keywords[i], "' was found on the following pages:\n")
-#     cat(matching_pages[[i]], sep = ", ")
-#     cat("\n\n")
-#   }
-# } else {
-#   cat("Failed to download the PDF file.")
-# }
-
-```
-
 ## Download the TRS - (when a FAS is not available) from Report_sourcelink present in jecfa.csv after pre-processing the Report name (n=667)
 
 ```{r, eval=F, echo=F, cache=T, message=FALSE}
-
-pdf_urls <- jecfa$Report_sourcelink
-
-# Loop through the URLs and download the PDFs into the "TRS" folder
-for (i in 11:length(pdf_urls)) {
-  url <- pdf_urls[i]
-  prefix <- as.character(i) # Prefix with the position in the original JECFA database
-
-
-  # Create the file name with prefix as RefID number
-  
-
-  # Check if the file already exists in the "TRS" folder, and if not, download it
-  if (!file.exists(file_name)) {
-    response <- GET(url)
-
-    if (status_code(response) == 200) {
-      # Save the PDF with the prefix in the "TRS" folder
-      writeBin(content(response, "raw"), file_name)
-      cat("Downloaded:", file_name, "\n")
-    } else {
-      cat("Failed to download:", url, "\n")
-    }
-  } else {
-    cat("File already exists:", file_name, "\n")
-  }
-}
-
-length(list.files("TRS"))
-length(list.files("TRS_Unique"))
 ```
 Here's a breakdown of what the code is doing:
 
@@ -164,7 +94,7 @@ If the download fails or if the file already exists, it logs appropriate message
 
 We identified 56 unique PDFs within TRS folder. 
 
-```{r, eval=F, echo=F, cache=F, message=FALSE}
+```{r}
 tibble(
   in_folder = here::here("data/TRS_unique") |> 
     list.files(),
@@ -199,7 +129,7 @@ Overall, the code automates the extraction of specific information from a collec
 
 It follows a **Match between JECFA refID (i.e., row names) and the TRS pdf**. 
 
-```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
+```{r}
 tar_read(TRSKeywordMatching) |>
     mutate(
         matching_pages = matching_pages |> 
@@ -215,7 +145,7 @@ tar_read(TRSKeywordMatching) |>
 ## Text mining on FAS (n=73 unique FAS)
 The same procedure described for text mining TRS is applied to FAS. The only difference is in the way the pdfs are accessed.
 
-```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
+```{r}
 tar_read(FASKeywordMatching) |>
     mutate(
         matching_pages = matching_pages |> 
@@ -233,371 +163,64 @@ tar_read(FASKeywordMatching) |>
 
 It follows a **match between JECFA refID and the FAS pdf **
 
-```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
+```{r}
+tar_read(jecfa_tm_full) |> 
+    datatable(
+        rownames = FALSE,
+        filter = list(position = "top"),
+        caption = "Results of text mining on JECFA"
+    )
 
-# jecfa$RefID <- row.names(jecfa)
-
-results_list1 <- readRDS("results_list1.rds")
-final_results_df1 <- data.frame(do.call(rbind, results_list1))
-
-# Standardize some FAS contents
-final_results_df1$FAS <- ifelse(nchar(final_results_df1$File) > 5, substr(final_results_df1$File, 1, 2), substr(final_results_df1$File, 1, 1))
-
-
-maptoJecfa1 <- merge(jecfa[c("RefID", "FAS")], final_results_df1, by = "FAS")
-# saveRDS(maptoJecfa1, file = "maptoJecfa1.rds")
-
-df1 <- as.data.frame(lapply(maptoJecfa1, as.character), stringsAsFactors = FALSE)
-df1$source_TM <- "FAS"
-df$source_TM <- "TRS"
-df1 <- df1[, match(names(df), names(df1))]
-
-# write.csv(df1, "FASmaptoJecfa.csv")
-jecfa_TM <- rbind(df, df1)
-
-# Replace integer(0) which means no words found as missing
-jecfa_TM[] <- lapply(jecfa_TM, function(x) ifelse(x == "integer(0)", NA, x))
-
-# Dataset containing the results of text mining on FAS and TRS
-saveRDS(jecfa_TM, file = "~/Efsa_pdf_tm/Jecfa_web/jecfa_TM.rds")
-# write.csv2(jecfa_TM, "jecfa_TM.csv")
-
-# Dataset containing the results of text mining on FAS and TRS plus original jecfa.csv variables
-maptoJecfa_all <- merge(jecfa, jecfa_TM, by = "RefID", all.x = T) |> distinct()
-saveRDS(maptoJecfa_all, file = "~/Efsa_pdf_tm/Jecfa_web/maptoJecfa_all.rds")
-
-# write.csv2(maptoJecfa_all, "maptoJecfa_all.csv")
 ```
 
 ## Description of jecfa records with text mining on FAS or TRS
-```{r, eval=T, cache=F, echo=F, warning=FALSE, message=FALSE}
-# library(VennDiagram)
-
-jecfa_TM <- readRDS("~/Efsa_pdf_tm/Jecfa_web/jecfa_TM.rds")
-
-# Convert page matches with a 1/0 variable
-jecfa_TM[, 3:10] <- as.integer(jecfa_TM[, 3:10] != 0)
-jecfa_TM[is.na(jecfa_TM)] <- 0
-
-tbl5 <-
-  jecfa_TM |>
-  mutate(
-    dose_response = dose.response | dose.response.1,
-    modelling = modelling | modeling,
-    benchmark_dose = benchmark.dose | benchmark.dose.1
-  ) |>
-  select(
-    dose_response,
-    modelling,
-    bmd,
-    bmr,
-    benchmark_dose,
-    source_TM
-  ) |>
-  tbl_summary(
-    missing = "no",
-    percent = "col",
-    label = list(dose_response ~ "dose response", benchmark_dose ~ "benchmark dose"),
-    sort = all_categorical() ~ "alphanumeric",
-    by = source_TM
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "dose_response",
-    footnote = "both dose-response and dose response terms were searched for"
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "benchmark_dose",
-    footnote = "both benchmark-dose and benchmark dose terms were searched for"
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "modelling",
-    footnote = "both modelling and modeling terms were searched for"
-  ) |>
-  modify_caption("**Table 5. Distribution of retrieved words by source document**")
-tbl5
-
-
-tbl6 <-
-  jecfa_TM |>
-  mutate(
-    dose_response = dose.response | dose.response.1,
-    modelling = modelling | modeling,
-    benchmark_dose = benchmark.dose | benchmark.dose.1,
-    bmd = case_when(bmd == 0 ~ "bmd no", bmd == 1 ~ "bmd yes")
-  ) |>
-  #  filter(source_TM == "FAS") |>
-  select(
-    dose_response,
-    modelling,
-    bmd,
-    bmr,
-    benchmark_dose,
-    source_TM
-  ) |>
-  tbl_strata(
-    strata = source_TM,
-    ~ .x |>
-      tbl_summary(
-        missing = "no",
-        percent = "col",
-        label = list(dose_response ~ "dose response", benchmark_dose ~ "benchmark dose"), sort = all_categorical() ~ "alphanumeric",
-        by = bmd
-      ) |>
-      modify_table_styling(
-        columns = label,
-        rows = variable == "dose_response",
-        footnote = "both dose-response and dose response terms were searched for"
-      ) |>
-      modify_table_styling(
-        columns = label,
-        rows = variable == "benchmark_dose",
-        footnote = "both benchmark-dose and benchmark dose terms were searched for"
-      ) |>
-      modify_table_styling(
-        columns = label,
-        rows = variable == "modelling",
-        footnote = "both modelling and modeling terms were searched for"
-      ) |>
-      modify_caption("**Table 6. Distribution by text bmd and document source**")
-  )
-tbl6
-
-
-tbl7 <-
-  jecfa_TM |>
-  mutate(
-    dose_response = dose.response | dose.response.1,
-    modelling = modelling | modeling,
-    benchmark_dose = benchmark.dose | benchmark.dose.1
-  ) |>
-  mutate(dose_response = case_when(dose_response == F ~ "dose-re no", dose_response == T ~ "dose-re yes")) |>
-  #  filter(source_TM == "FAS") |>
-  select(
-    dose_response,
-    modelling,
-    bmd,
-    bmr,
-    benchmark_dose,
-    source_TM
-  ) |>
-  tbl_strata(
-    strata = source_TM,
-    ~ .x |>
-      tbl_summary(
-        missing = "no",
-        percent = "col",
-        label = list(dose_response ~ "dose response", benchmark_dose ~ "benchmark dose"), sort = all_categorical() ~ "alphanumeric",
-        by = dose_response
-      ) |>
-      modify_table_styling(
-        columns = label,
-        rows = variable == "dose_response",
-        footnote = "both dose-response and dose response terms were searched for"
-      ) |>
-      modify_table_styling(
-        columns = label,
-        rows = variable == "benchmark_dose",
-        footnote = "both benchmark-dose and benchmark dose terms were searched for"
-      ) |>
-      modify_table_styling(
-        columns = label,
-        rows = variable == "modelling",
-        footnote = "both modelling and modeling terms were searched for"
-      ) |>
-      modify_caption("**Table 7. Distribution by text dose response and document source**")
-  )
-
-tbl7
-
+```{r}
+tar_read(tbl5)
 ```
 
-```{r, eval=T, cache=F, echo=F, warning=FALSE, message=FALSE}
-maptoJecfa_all <- readRDS("~/Efsa_pdf_tm/Jecfa_web/maptoJecfa_all.rds")
-
-
-tbl8 <-
-  maptoJecfa_all |>
-  mutate(
-    source_tm = ifelse(is.na(source_TM) == TRUE, "Unknown", source_TM),
-    Monograph = ifelse(is.na(Tox_monograph_abbr) == TRUE, "no", ifelse(substr(Tox_monograph_abbr, 1, 12) == "NOT PREPARED", "no", "yes")),
-    Report = ifelse(Report == "", "no", "yes")
-  ) |>
-  select(source_tm, Monograph, Report) |>
-  tbl_summary(
-    missing = "no",
-    percent = "col",
-    by = source_tm,
-    #     label = list(dose_response ~ "dose response", benchmark_dose ~ "benchmark dose"),
-    sort = all_categorical() ~ "alphanumeric"
-  ) |>
-  #   add_overall()|>
-  modify_caption("**Table 8. Distribution of retrieved documents**")
-
-tbl8
-
-tbl9 <-
-  maptoJecfa_all |>
-  mutate(
-    source_tm = if_else(source_TM == "0", "Unknown", source_TM),
-    unique1 = !duplicated(cbind(Functional.Class, CAS.number, Evaluation.year, COE.number, FEMA.number)),
-    unique2 = !duplicated(cbind(Functional.Class, CAS.number, Evaluation.year, COE.number)),
-    unique3 = !duplicated(cbind(Functional.Class, CAS.number, Evaluation.year)),
-    unique4 = !duplicated(cbind(CAS.number, Evaluation.year))
-  ) |>
-  select(unique1, unique2, unique3, unique4, source_tm) |>
-  tbl_summary(
-    missing = "no",
-    missing_text = "Unknown",
-    percent = "col",
-    by = source_tm,
-    type = list(c(unique1, unique2, unique3, unique4) ~ "categorical")
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "unique1",
-    footnote = "unique combination of Functional.Class, CAS.number, Evaluation.year, COE.number, FEMA.number"
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "unique2",
-    footnote = "unique combination of Functional.Class, CAS.number, Evaluation.year, COE.number"
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "unique3",
-    footnote = "unique combination of Functional.Class, CAS.number, Evaluation.year"
-  ) |>
-  add_overall() |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "unique4",
-    footnote = "unique combination of CAS.number, Evaluation.year"
-  ) |>
-  remove_row_type(
-    variables = c(unique1, unique2, unique3, unique4),
-    type = "level", level_value = ("FALSE")
-  ) |>
-  modify_caption("**Table 9. Distribution of unique records depending on the set of variables considered**")
-
-tbl9
-
+```{r}
+tar_read(tbl6)
 ```
+
+
+```{r}
+tar_read(tbl7)
+```
+
+```{r}
+tar_read(tbl8)
+```
+
+```{r}
+tar_read(tbl9)
+```
+
+
+
 
 ## Filtering of jecfa records by bmd, bmr or benchmark dose and identify unique records (N= 1122)
-```{r, eval=T, cache=F, echo=F, warning=FALSE, message=FALSE}
-maptoJecfa_all <- readRDS("~/Efsa_pdf_tm/Jecfa_web/maptoJecfa_all.rds")
 
-# Convert page matches with a 1/0 variable
-maptoJecfa_all[, 23:30] <- as.integer(maptoJecfa_all[, 23:30] != 0)
-maptoJecfa_all[is.na(maptoJecfa_all)] <- 0
-
-tbl10 <-
-  maptoJecfa_all |>
-  filter(bmd == 1 |
-    bmr == 1 |
-    benchmark.dose == 1 |
-    benchmark.dose.1 == 1) |>
-  mutate(
-    Some_id = if_else(CAS.number == "0" & COE.number == "0" & FEMA.number == "0", "Unknown", ">=1 Present"),
-    unique1 = !duplicated(cbind(Functional.Class, CAS.number, Evaluation.year, COE.number, FEMA.number))
-  ) |>
-  select(Functional.Class, CAS.number, Some_id, COE.number, FEMA.number, unique1) |>
-  mutate(
-    across(
-      c(Functional.Class, CAS.number, COE.number, FEMA.number),
-      ~ case_when(
-        . == "0" ~ FALSE,
-        TRUE ~ TRUE
-      ),
-      .names = "{.col} (non_missing)"
-    ),
-    .keep = "unused"
-  ) |>
-  tbl_summary(
-    # missing = "always",
-    percent = "col",
-    by = Some_id,
-    type = list(c(unique1) ~ "categorical")
-  ) |>
-  modify_table_styling(
-    columns = label,
-    rows = variable == "unique1",
-    footnote = "unique combination of Functional.Class, CAS.number, Evaluation.year, COE.number, FEMA.number"
-  ) |>
-  add_overall() |>
-  modify_caption("**Table 10. Distribution of identifiers when at least one among CAS, COE and FEMA is present**")
-
-tbl10
-
-maptoJecfa_filter <- maptoJecfa_all |>
-  filter(bmd == 1 |
-    bmr == 1 |
-    benchmark.dose == 1 |
-    benchmark.dose.1 == 1) |>
-  group_by(
-    Functional.Class,
-    CAS.number,
-    Evaluation.year,
-    COE.number,
-    FEMA.number
-  ) |>
-  mutate(
-    Chemical.Names_conc = paste0(Chemical.Names, collapse = ", "),
-    URL_conc = paste0(URL, collapse = ", ")
-  ) |>
-  distinct(Functional.Class,
-    CAS.number,
-    Evaluation.year,
-    COE.number,
-    FEMA.number,
-    .keep_all = TRUE
-  )
-
-# Sort by File for ease of consultation
-maptoJecfa_filter <- maptoJecfa_filter[order(maptoJecfa_filter$File), ]
-
-# Create a new identifier for import into DistillerSR
-maptoJecfa_filter$RefID_Distiller <- 1:nrow(maptoJecfa_filter)
+```{r}
+tar_read(tbl10)
+```
 
 
-maptoJecfa_filter$CAS.number_1 <- substr(maptoJecfa_filter$CAS.number, 3, nchar(maptoJecfa_filter$CAS.number) - 2)
+```{r}
+# ## CL: TO CHECK!!!!!!!!!!!!!!!   WHY MERGE AGAIN WITH JECFA_TM????
+# JecfatoDistiller <- merge(maptoJecfa_filter[, c(1:22, 32:34)], jecfa_TM[, c(-1, -11)], by = "RefID", all.x = T)
 
-JecfatoDistiller <- merge(maptoJecfa_filter[, c(1:22, 32:34)], jecfa_TM[, c(-1, -11)], by = "RefID", all.x = T)
-
-# write.csv2(JecfatoDistiller, "JecfatoDistillerIII.csv")
+tar_read(jecfaDistiller) |> 
+    datatable(
+        rownames = FALSE,
+        filter = list(position = "top"),
+        caption = "Results of text mining on JECFA"
+    )
 ```
 
 ## Retrive pdf to upload into DistillerSR
 
-```{r, eval=F, cache=F, echo=F, warning=FALSE, message=FALSE}
-# List of filenames from JecfatoDistiller$File
-jecfato_file_list <- unique(JecfatoDistiller$File)
-
-# Directories containing the source PDF files
-source_directories <- c("TRS_Unique", file.path("FAS", "jecfa_files"))
-
-# Directory where the PDF files will be stored
-output_directory <- "PDF_JecfatoDistiller"
-
-# Create the output directory if it doesn't exist
-if (!dir.exists(output_directory)) {
-  dir.create(output_directory)
-}
-
-# Iterate through the source directories
-for (source_directory in source_directories) {
-  files <- list.files(path = source_directory, full.names = TRUE)
-  matching_files <- files[basename(files) %in% jecfato_file_list]
-
-  for (matching_file in matching_files) {
-    destination_file_path <- file.path(output_directory, basename(matching_file))
-    file.copy(matching_file, destination_file_path)
-    cat("Copying:", matching_file, "to", destination_file_path, "\n")
-  }
-}
-
-cat("File copying complete.\n")
+```{r}
+usethis::ui_done(
+  "{tar_read(fileUsed) |> basename()} copied."
+)
 ```

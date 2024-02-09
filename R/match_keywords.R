@@ -2,12 +2,12 @@ match_keywords <- function(
   trsUnique,
   parsedPdf,
   keywords,
-  type = c("FAS", "TRS")
+  source = c("FAS", "TRS")
 ) {
-  type = match.arg(type)
+  source = match.arg(source)
 
   tibble::tibble(
-    type = type,
+    source = source,
     file = basename(trsUnique),
     keywords = keywords,
     matching_pages = purrr::map(
