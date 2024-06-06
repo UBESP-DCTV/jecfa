@@ -96,13 +96,17 @@ get_chemical <- function(id) {
     }
   }
 
-  tibble::as_tibble(chem_dict) |>
-    dplyr::mutate(
-      JECFA_name = get_jecfa_name(page),
-      index = id,
-      URL = url
-    )
+  res <- tibble::tibble(
+    JECFA_name = get_jecfa_name(page),
+    index = id,
+    URL = url
+  )
 
+  if (nrow({chem <- tibble::as_tibble(chem_dict)}) > 0) {
+    dplyr::bind_cols(chem, res)
+  } else {
+    res
+  }
 }
 
 get_jecfa_name <- function(page) {

@@ -18,8 +18,9 @@ test_that("create_df works", {
 test_that("get_chemical works", {
   # execution
   ok <- get_chemical(7)
+  empty_ok <- get_chemical(219)
 
   # test
-  ok |>
-    expect_snapshot_value("serialize")
+  expect_snapshot_value(ok, "serialize")
+  checkmate::expect_tibble(empty_ok, nrows = 1)
 })
