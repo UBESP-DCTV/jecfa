@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.3.2
+FROM rocker/tidyverse:4.4.0
 LABEL maintainer="Corrado Lanera <corrado.lanera@ubep.unipd.it>"
 
 # https://notes.rmhogervorst.nl/post/2020/09/23/solving-libxt-so-6-cannot-open-shared-object-in-grdevices-grsoftversion/
@@ -8,7 +8,8 @@ RUN apt-get update && \
   libnng-dev cmake \
   libpoppler-cpp-dev \
   libtesseract-dev libleptonica-dev tesseract-ocr-eng \
-  libv8-dev
+  libv8-dev \
+  xz-utils
 
 RUN mkdir /home/rstudio/jecfa && chown -c rstudio /home/rstudio/jecfa
 WORKDIR /home/rstudio/jecfa

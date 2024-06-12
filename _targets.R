@@ -57,7 +57,7 @@ list(
   tar_target(
     name = jecfa_augmented,
     command = add_metadata(jecfa)
-  )
+  ),
 
   # # Tables ----------------------
   # tar_target(
@@ -291,28 +291,29 @@ list(
   #   here("report/pdf_tm_2.Rmd")
   # ),
   #
-  # # Share -----------------------
-  # tar_target(
-  #   objectToShare,
-  #   list(
-  #     jecfa_raw = jecfa_raw,
-  #     jecfa = jecfa,
-  #     jecfa_distiller = jecfaDistiller
-  #   )
-  # ),
-  # tar_target(
-  #   shareOutputNow,
-  #   share_objects(
-  #     objectToShare,
-  #     last = FALSE
-  #   ),
-  #   format = "file",
-  #   pattern = map(objectToShare)
-  # ),
-  # tar_target(
-  #   shareOutput,
-  #   share_objects(objectToShare),
-  #   format = "file",
-  #   pattern = map(objectToShare)
-  # )
+  # Share -----------------------
+  tar_target(
+    objectToShare,
+    list(
+      jecfa_raw = jecfa_raw,
+      jecfa = jecfa,
+      jecfa_augmented = jecfa_augmented
+      # jecfa_distiller = jecfaDistiller
+    )
+  ),
+  tar_target(
+    shareOutputNow,
+    share_objects(
+      objectToShare,
+      last = FALSE
+    ),
+    format = "file",
+    pattern = map(objectToShare)
+  ),
+  tar_target(
+    shareOutput,
+    share_objects(objectToShare),
+    format = "file",
+    pattern = map(objectToShare)
+  )
 )

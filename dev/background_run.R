@@ -15,8 +15,8 @@ usethis::ui_info(
   "Real-world time: {lubridate::as.duration(round(toc - tic, 2))}"
 )
 
-computational_time <- tar_meta(
-  tar_manifest()[["name"]],
+computational_time <- targets::tar_meta(
+  targets::tar_manifest()[["name"]],
   fields = c(seconds, warnings, error)
 ) |>
   dplyr::filter(
