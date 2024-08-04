@@ -242,27 +242,28 @@ list(
   tar_target(tbl9, compose_tbl9(jecfa_tm_full)),
   tar_target(tbl10, compose_tbl10(jecfa_tm_full)),
 
-  #
-  # tar_target(
-  #   jecfaDistiller,
-  #   create_distiller_jecfa(jecfa_tm_full)
-  # ),
-  #
-  # tar_target(
-  #   fileUsed,
-  #   get_file_used(
-  #     jecfaDistiller, fasPaths, trsUnique
-  #   )
-  # ),
-  #
-  # tar_target(
-  #   moveUsed,
-  #   move_file_used(
-  #     fileUsed,
-  #     here::here("data/used")
-  #   ),
-  #   format = "file"
-  # ),
+
+  tar_target(
+    jecfaDistiller,
+    create_distiller_jecfa(jecfa_tm_full)
+  ),
+
+  # just reorganized files in folders
+  tar_target(
+    fileUsed,
+    get_file_used(
+      jecfaDistiller, fasPaths, trsUnique
+    )
+  ),
+
+  tar_target(
+    moveUsed,
+    move_file_used(
+      fileUsed,
+      here::here("data/used")
+    ),
+    format = "file"
+  ),
   #
   # # Report ----------------------
   # tar_render(
