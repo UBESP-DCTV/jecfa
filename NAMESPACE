@@ -3,6 +3,7 @@
 export(add_metadata)
 export(compose_jecfa_list)
 export(create_df)
+export(extract_jecfa_tox_abbr)
 export(get_chemical)
 export(get_jecfa_name)
 export(get_jecfa_type)

@@ -1,3 +1,18 @@
+#' Extracts JECFA abbreviation
+#'
+#' This function extracts the abbreviation of a JECFA monograph.
+#'
+#' @param tox_monograph A character vector with the JECFA monograph
+#'
+#' @return A character vector with the abbreviation of the JECFA
+#'   monograph
+#' @export
+#'
+#' @examples
+#' compose_jecfa_list(1) |>
+#'   get_result() |>
+#'   dplyr::pull("Tox Monograph1") |>
+#'   extract_jecfa_tox_abbr()
 extract_jecfa_tox_abbr <- function(tox_monograph) {
   aux <- tox_monograph |>
     sapply(extract_initial_part) |>
