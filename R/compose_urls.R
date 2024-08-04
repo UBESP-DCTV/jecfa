@@ -113,7 +113,7 @@ is_missing_url <- function(url) {
 
 check_valid_url <- function(pdf_url) {
   if (!is_valid_url(pdf_url)) {
-    usethis::ui_warn("Invalid URL format, skipping: {url}")
+    usethis::ui_warn("Invalid URL format, skipping: {pdf_url}")
     return(FALSE)
   }
   TRUE
