@@ -152,6 +152,7 @@ list(
     format = "file"
   ),
 
+  # parse TRS to text (only once if the file is the same)
   tar_target(
     trsParsed,
     parse_pdf(trsUnique, dpi = 75),
@@ -160,7 +161,7 @@ list(
   ),
 
 
-  # same for FAS
+  # same for FAS (which are provided and not scraped/downloaded)
   tar_files(
     fasPaths,
     list.files(
@@ -179,9 +180,6 @@ list(
       ) |>
       dplyr::select(file, ref_id)
   ),
-
-
-
   tar_target(
     fasParsed,
     parse_pdf(fasPaths, dpi = 75),
