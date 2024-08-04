@@ -81,6 +81,7 @@ list(
 
 
   # TRS -------------------------
+  # compose URLS to download
   tar_target(
     urls_list,
     command = compose_urls(jecfa_augmented)
@@ -91,6 +92,7 @@ list(
     command = remove_null_urls(urls_list)
   ),
 
+  # output path for TRS (with id)
   tar_target(
     trsPaths,
     compose_filepaths(
@@ -99,11 +101,66 @@ list(
     )
   ),
 
+  # output path for TRS (without id)
+  tar_target(
+    trsPathsNoid,
+    compose_filepaths(
+      urls_ok,
+      here::here("data/TRS_unique"),
+      noid = TRUE
+    )
+  ),
+
+  # define the relationship between TRS urls and JECFA
   tar_target(
     trsMapToJecfa,
     compose_maptojecfa(trsPaths)
   ),
 
+  # extract the valid URLs as proper URL format for targets,
+  # this is usefull to avoid download multiple time urls with
+  # unchanged destination file.
+  tar_target(
+    trsUrls,
+    command = purrr::map_chr(urls_ok, "url"),
+    format = "url"
+  ),
+
+  # download TRS
+  tar_target(
+    trsDownload,
+    download_trs(
+      trsUrls, trsPaths, trsPathsNoid
+    ),
+    pattern = map(
+      trsUrls, trsPaths, trsPathsNoid
+    ),
+    format = "file"
+  ),
+
+  tar_target(
+    trsUniqueAux,
+    unique(trsDownload)
+  ),
+
+  # this additional step is required to convert the character into
+  # a patter of file paths for targets
+  tar_target(
+    trsUnique,
+    trsUniqueAux,
+    pattern = map(trsUniqueAux),
+    format = "file"
+  ),
+
+  tar_target(
+    trsParsed,
+    parse_pdf(trsUnique, dpi = 75),
+    pattern = map(trsUnique),
+    iteration = "list"
+  ),
+
+
+  # same for FAS
   tar_files(
     fasPaths,
     list.files(
@@ -123,51 +180,7 @@ list(
       dplyr::select(file, ref_id)
   ),
 
-  tar_target(
-    trsPathsNoid,
-    compose_filepaths(
-      urls_ok,
-      here::here("data/TRS_unique"),
-      noid = TRUE
-    )
-  ),
 
-  tar_target(
-    trsUrls,
-    command = purrr::map_chr(urls_ok, "url"),
-    format = "url"
-  ),
-
-  tar_target(
-    trsDownload,
-    download_trs(
-      trsUrls, trsPaths, trsPathsNoid
-    ),
-    pattern = map(
-      trsUrls, trsPaths, trsPathsNoid
-    ),
-    format = "file"
-  ),
-
-  tar_target(
-    trsUniqueAux,
-    unique(trsDownload)
-  ),
-
-  tar_target(
-    trsUnique,
-    trsUniqueAux,
-    pattern = map(trsUniqueAux),
-    format = "file"
-  ),
-
-
-  tar_target(
-    trsParsed,
-    parse_pdf(trsUnique, dpi = 75),
-    pattern = map(trsUnique),
-    iteration = "list"
-  ),
 
   tar_target(
     fasParsed,
