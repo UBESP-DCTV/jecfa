@@ -62,22 +62,10 @@ list(
   ),
 
   # Descriptive tables -----------
-  tar_target(
-    name = tbl1,
-    command = compose_tbl1(jecfa_augmented)
-  ),
-  tar_target(
-    name = tbl2,
-    command = compose_tbl2(jecfa_augmented)
-  ),
-  tar_target(
-    name = tbl3,
-    command = compose_tbl3(jecfa_augmented)
-  ),
-  tar_target(
-    name = tbl4,
-    command = compose_tbl4(jecfa_augmented)
-  ),
+  tar_target(tbl1, compose_tbl1(jecfa_augmented)),
+  tar_target(tbl2, compose_tbl2(jecfa_augmented)),
+  tar_target(tbl3, compose_tbl3(jecfa_augmented)),
+  tar_target(tbl4, compose_tbl4(jecfa_augmented)),
 
 
   # TRS -------------------------
@@ -246,37 +234,14 @@ list(
       dplyr::distinct()
   ),
 
-  # # tables tm -------------------
-  # tar_target(
-  #   tbl5,
-  #   compose_tbl5(keywordMatching)
-  # ),
-  #
-  # tar_target(
-  #   tbl6,
-  #   compose_tbl6(keywordMatching)
-  # ),
-  #
-  # tar_target(
-  #   tbl7,
-  #   compose_tbl7(keywordMatching)
-  # ),
-  #
-  # tar_target(
-  #   tbl8,
-  #   compose_tbl8(jecfa_tm_full)
-  # ),
-  #
-  # tar_target(
-  #   tbl9,
-  #   compose_tbl9(jecfa_tm_full)
-  # ),
-  #
-  # tar_target(
-  #   tbl10,
-  #   compose_tbl10(jecfa_tm_full)
-  # ),
-  #
+  # tables tm -------------------
+  tar_target(tbl5, compose_tbl5(keywordMatching)),
+  tar_target(tbl6, compose_tbl6(keywordMatching)),
+  tar_target(tbl7, compose_tbl7(keywordMatching)),
+  tar_target(tbl8, compose_tbl8(jecfa_tm_full)),
+  tar_target(tbl9, compose_tbl9(jecfa_tm_full)),
+  tar_target(tbl10, compose_tbl10(jecfa_tm_full)),
+
   #
   # tar_target(
   #   jecfaDistiller,

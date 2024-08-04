@@ -1,3 +1,13 @@
+#' Table 5
+#'
+#' This function creates a table with the distribution of retrieved
+#' words by source document
+#'
+#' @param keywordMatching A tibble with the results of the keyword
+#'   matching
+#'
+#' @return A gtsummary table
+#' @export
 compose_tbl5 <- function(keywordMatching) {
   keywordMatching |>
     prepare_keydb_for_tbl() |>
@@ -8,6 +18,16 @@ compose_tbl5 <- function(keywordMatching) {
 }
 
 
+#' Table 6
+#'
+#' This function creates a table with the distribution of retrieved
+#' words by text bmd and document source
+#'
+#' @param keywordMatching A tibble with the results of the keyword
+#' matching
+#'
+#' @return A gtsummary table
+#' @export
 compose_tbl6 <- function(keywordMatching) {
   keywordMatching |>
     prepare_keydb_for_tbl() |>
@@ -21,6 +41,16 @@ compose_tbl6 <- function(keywordMatching) {
     )
 }
 
+#' Table 7
+#'
+#' This function creates a table with the distribution of retrieved
+#' words by text dose response and document source
+#'
+#' @param keywordMatching A tibble with the results of the keyword
+#'  matching
+#'
+#' @return A gtsummary table
+#' @export
 compose_tbl7 <- function(keywordMatching) {
   keywordMatching |>
     prepare_keydb_for_tbl() |>
@@ -35,6 +65,15 @@ compose_tbl7 <- function(keywordMatching) {
 }
 
 
+#' Table 8
+#'
+#' This function creates a table with the distribution of retrieved
+#' documents
+#'
+#' @param jecfa_tm_full A tibble with the JECFA data
+#'
+#' @return A gtsummary table
+#' @export
 compose_tbl8 <- function(jecfa_tm_full) {
   jecfa_tm_full |>
     dplyr::mutate(
@@ -60,6 +99,15 @@ compose_tbl8 <- function(jecfa_tm_full) {
 }
 
 
+#' Table 9
+#'
+#' This function creates a table with the distribution of unique
+#' records depending on the set of variables considered
+#'
+#' @param jecfa_tm_full A tibble with the JECFA data
+#'
+#' @return A gtsummary table
+#' @export
 compose_tbl9 <- function(jecfa_tm_full) {
   jecfa_tm_full |>
     dplyr::select(-c(matching_pages, any_match)) |>
@@ -127,6 +175,15 @@ compose_tbl9 <- function(jecfa_tm_full) {
 }
 
 
+#' Table 10
+#'
+#' This function creates a table with the distribution of identifiers
+#' when at least one among CAS, COE and FEMA is present
+#'
+#' @param jecfa_tm_full A tibble with the JECFA data
+#'
+#' @return A gtsummary table
+#' @export
 compose_tbl10 <- function(jecfa_tm_full) {
   jecfa_tm_full |>
     dplyr::select(-c(matching_pages, any_match)) |>
@@ -174,6 +231,14 @@ compose_tbl10 <- function(jecfa_tm_full) {
 
 
 
+#' Prepare keywordMatching for table
+#'
+#' This function prepares the keywordMatching db for the tables
+#'
+#' @param x A tibble with the results of the keyword matching
+#'
+#' @return A tibble with the necessary columns for the tables
+#' @noRd
 prepare_keydb_for_tbl <- function(x) {
   x |>
     dplyr::select(source, file, ref_id, keywords, keyword_match) |>
@@ -192,6 +257,14 @@ prepare_keydb_for_tbl <- function(x) {
     )
 }
 
+#' Summary table for keywords
+#'
+#' @param key_db keyword db as prepared by prepare_keydb_for_tbl
+#' @param by column to group by
+#' @param title title of the table
+#'
+#' @return a gtsummary table
+#' @noRd
 keyword_summary <- function(key_db, by, title) {
   key_db |>
     gtsummary::tbl_summary(
