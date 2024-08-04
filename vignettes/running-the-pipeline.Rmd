@@ -1,0 +1,56 @@
+---
+title: "Running the Pipeline"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{running-the-pipeline}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Running the Pipeline
+
+Once your project is activated (locally or within a container; refer to the `setup-project` vignette), you can run the pipeline to create or update all its objects (i.e., the `tar_targets` defined in `_targets.R`).
+
+Unlike a standard script execution, the pipeline only re-runs the necessary steps to update the targets specified in the `_targets.R` file as `tar_target(...)`. This efficiency is achieved through the `targets` package, a pipeline toolkit for R[@R-targets].
+
+### Inspecting the Pipeline
+
+Before running the pipeline, you can inspect it using `tar_visnetwork(targets_only = TRUE)`. This command visualizes the objects and their dependencies, highlighting the "outdated" objects that need creation or updating. This preview allows you to modify the pipeline if necessary before execution.
+
+### Running the Pipeline
+
+To manually run the pipeline, use `tar_make()`. Detailed documentation for this function is available via `?tar_make`. Additionally, the project provides two wrapper functions for running the pipeline interactively or in the background.
+
+A message at every project's R session start-up will hint you on how to run the pipeline interactively or in the background.
+
+#### Interactive Mode
+
+Run the pipeline interactively by executing `.run()` in the R console. This method runs the pipeline in your active session, which will remain busy for the duration of the process (potentially hours). The interactive wrapper saves all unsaved changes, displays the network, and asks for confirmation before execution. After the pipeline completes or encounters errors, it shows the updated pipeline graph, indicating the current status. This mode also allows you to monitor progress and errors as they occur.
+
+#### Background Mode
+
+For background execution, use `.background_run()` in the RStudio console (this feature is exclusive to RStudio). This command runs the pipeline in the background, freeing your session for other tasks. You can monitor progress in the RStudio Jobs pane, which displays the start time, live progress summary (including the number of targets queued, skipped, dispatched, completed, errored, warned, and cancelled), end time, total elapsed time, and CPU time used. The CPU time might differ from the real time because the pipeline can run in parallel, with CPU time representing the sum of all processes. You can stop the pipeline by clicking the red stop button in the Jobs pane.
+
+### Parallel Processing
+
+You can configure the number of workers for parallel processing by setting the `workers` argument at the beginning of the `_targets.R` script. The default is set to 4 cores.
+
+### Handling Interruptions
+
+If the pipeline is interrupted, you can restart it using `tar_make()`, `.run()`, or `.background_run()`. The pipeline will evaluate its current status and only execute the necessary steps (i.e., the targets not yet evaluated), ensuring an efficient update without re-running the entire process.
+
+### References
+
+```{r, include=FALSE}
+knitr::write_bib(
+  c("targets", "renv"),
+  file = here::here("inst/bibliography.bib")
+)
+```
