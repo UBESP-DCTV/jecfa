@@ -8,7 +8,7 @@ tar_option_set(
   format = "qs",
   error = "continue",
   controller = crew_controller_local(
-    workers = 32
+    workers = 4
   ),
   storage = "worker",
   retrieval = "worker"

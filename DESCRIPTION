@@ -1,18 +1,19 @@
 Package: jecfa
 Title: Web Scraping JECFA
 Version: 0.0.0.9000
-Authors@R: 
-    c(
-      person("Corrado", "Lanera", , "corrado.lanera@ubep.unipd.it", role = c("aut", "cre"),
+Authors@R: c(
+    person("Corrado", "Lanera", , "corrado.lanera@ubep.unipd.it", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0520-7428")),
-      person("Ileana", "Baldi", , "ileana.baldi@ubep.unipd.it", role = c("aut"),
+    person("Ileana", "Baldi", , "ileana.baldi@ubep.unipd.it", role = "aut",
            comment = c(ORCID = "0000-0002-8578-9164"))
-    )
-Description: Scrapes details related to chemicals from the [Evaluations of the Joint FAO/WHO Expert Committee on Food Additives (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/), captures evaluation reports, links, and other data points.
+  )
+Description: Scrapes details related to chemicals from the [Evaluations of
+    the Joint FAO/WHO Expert Committee on Food Additives
+    (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/),
+    captures evaluation reports, links, and other data points.
 License: CC BY 4.0
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+Depends:
+    R (>= 3.5.0)
 Imports: 
     dplyr,
     fs,
@@ -28,9 +29,11 @@ Suggests:
     checkmate,
     crew,
     devtools,
+    knitr,
     lintr,
     qs,
     readr,
+    rmarkdown,
     spelling,
     tarchetypes,
     targets,
@@ -38,3 +41,7 @@ Suggests:
     tidyverse,
     visNetwork
 Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+VignetteBuilder: knitr
