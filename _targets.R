@@ -234,6 +234,8 @@ list(
     dplyr::bind_rows(FASKeywordMatching, TRSKeywordMatching)
   ),
 
+  # compose a dataset with all the information, metadata and keywords'
+  # matching
   tar_target(
     jecfa_tm_full,
     jecfa_augmented |>
