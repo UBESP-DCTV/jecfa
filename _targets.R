@@ -264,25 +264,26 @@ list(
     ),
     format = "file"
   ),
-  #
-  # # Report ----------------------
-  # tar_render(
-  #   jecfa_ws,
-  #   here("report/jecfa_ws.Rmd")
-  # ),
-  # tar_render(
-  #   pdf_tm_2,
-  #   here("report/pdf_tm_2.Rmd")
-  # ),
-  #
+
+  # Report ----------------------
+  tar_render(
+    jecfa_ws,
+    here("report/jecfa_ws.Rmd")
+  ),
+  tar_render(
+    pdf_tm_2,
+    here("report/pdf_tm_2.Rmd")
+  ),
+
+
   # Share -----------------------
   tar_target(
     objectToShare,
     list(
       jecfa_raw = jecfa_raw,
       jecfa = jecfa,
-      jecfa_augmented = jecfa_augmented
-      # jecfa_distiller = jecfaDistiller
+      jecfa_augmented = jecfa_augmented,
+      jecfa_distiller = jecfaDistiller
     )
   ),
   tar_target(

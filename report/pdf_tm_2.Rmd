@@ -206,9 +206,6 @@ tar_read(tbl10)
 
 
 ```{r}
-# ## CL: TO CHECK!!!!!!!!!!!!!!!   WHY MERGE AGAIN WITH JECFA_TM????
-# JecfatoDistiller <- merge(maptoJecfa_filter[, c(1:22, 32:34)], jecfa_TM[, c(-1, -11)], by = "RefID", all.x = T)
-
 tar_read(jecfaDistiller) |> 
     datatable(
         rownames = FALSE,
