@@ -1,10 +1,21 @@
-remove_null_urls <- function(x) {
-  to_retain <- x |>
-    purrr::map_lgl(~ !is.null(.x[["url"]]))
-  x[to_retain]
-}
-
-
+#' Compose filepaths to download TRS
+#'
+#' @param urls (chr) URLs to download
+#' @param dir (chr) Directory to save the files
+#' @param noid (logical) Whether to use the noid version of the filename
+#'
+#' @return (chr) Filepaths to download
+#' @export
+#'
+#' @examples
+#' c(1, 10) |>
+#'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
+#'   create_df() |>
+#'   process_df() |>
+#'   add_metadata() |>
+#'   compose_urls() |>
+#'   remove_null_urls() |>
+#'   compose_filepaths(tempdir())
 compose_filepaths <- function(urls, dir, noid = FALSE) {
   fname <- ifelse(noid, "fnm_noid", "fnm")
 
@@ -13,6 +24,28 @@ compose_filepaths <- function(urls, dir, noid = FALSE) {
 }
 
 
+#' Map TRS path to JECFA
+#'
+#' @param x (chr) TRS path
+#'
+#' @return (tibble) JECFA ID and file
+#' @export
+#'
+#' @examples
+#' # only record 10 and 11 has TRS
+#' jecfa_sample <- c(1, 10, 11) |>
+#'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
+#'   create_df() |>
+#'   process_df() |>
+#'   add_metadata()
+#'
+#'  # id 2 and 3 of the provided db (record 10, and 11) has TRS and
+#'  # are reported in the resulting tibble
+#'  jecfa_sample |>
+#'   compose_urls() |>
+#'   remove_null_urls() |>
+#'   compose_filepaths(tempdir()) |>
+#'   compose_maptojecfa()
 compose_maptojecfa <- function(x) {
   x <- basename(x)
 
@@ -22,21 +55,3 @@ compose_maptojecfa <- function(x) {
     file = stringr::str_remove(x, "^\\d+-")
   )
 }
-
-download_trs <- function(url, path, path_noid) {
-
-  code <- download.file(
-    url,
-    path,
-    quiet = TRUE,
-    mode = "wb",
-    cacheOK = FALSE
-  )
-
-  if (!code) {
-    fs::file_copy(path, path_noid, overwrite = TRUE)
-  }
-
-  ifelse(code, stringr::str_glue("ERROR: {code}"), path_noid)
-}
-
