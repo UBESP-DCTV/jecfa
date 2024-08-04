@@ -187,6 +187,10 @@ list(
     iteration = "list"
   ),
 
+
+  # Text mining ---------------------------------------------------
+
+  # define the keywords of interest for text-mining
   tar_target(
     keywords,
     c(
@@ -201,6 +205,18 @@ list(
     )
   ),
 
+  # match keywords in the parsed PDFs
+  tar_target(
+    TRSKeywordMatching,
+    match_keywords(
+      trsUnique, trsParsed, keywords, "TRS"
+    ) |>
+      dplyr::left_join(
+        trsMapToJecfa,
+        relationship = "many-to-many"
+      ),
+    pattern = map(trsUnique, trsParsed)
+  ),
   tar_target(
     FASKeywordMatching,
     match_keywords(
@@ -214,21 +230,8 @@ list(
   ),
 
   tar_target(
-    TRSKeywordMatching,
-    match_keywords(
-      trsUnique, trsParsed, keywords, "TRS"
-    ) |>
-      dplyr::left_join(
-        trsMapToJecfa,
-        relationship = "many-to-many"
-      ),
-    pattern = map(trsUnique, trsParsed)
-  ),
-
-  tar_target(
     keywordMatching,
-    FASKeywordMatching |>
-      dplyr::bind_rows(TRSKeywordMatching)
+    dplyr::bind_rows(FASKeywordMatching, TRSKeywordMatching)
   ),
 
   tar_target(
