@@ -18,6 +18,7 @@ tar_source()
 
 # Targets ---------------------
 list(
+  # which JECFA IDs are to consider
   tar_target(
     name = jecfa_ids,
     command = seq_len(10000)
