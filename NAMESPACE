@@ -2,6 +2,10 @@
 
 export(add_metadata)
 export(compose_jecfa_list)
+export(compose_tbl1)
+export(compose_tbl2)
+export(compose_tbl3)
+export(compose_tbl4)
 export(create_df)
 export(extract_jecfa_report_clean)
 export(extract_jecfa_tox_abbr)

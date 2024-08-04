@@ -24,6 +24,7 @@ list(
     command = seq_len(10000)
   ),
 
+  # Scraping JECFA
   tar_target(
     name = jecfa_list,
     command = compose_jecfa_list(jecfa_ids),
@@ -46,7 +47,7 @@ list(
     iteration = "list"
   ),
 
-
+  # Creates a single, cleaned, data frame with metadata
   tar_target(
     name = jecfa_raw,
     command = create_df(jecfa_oks)
@@ -60,175 +61,175 @@ list(
     command = add_metadata(jecfa)
   ),
 
-  # # Tables ----------------------
-  # tar_target(
-  #   name = tbl1,
-  #   command = compose_tbl1(jecfa_augmented)
-  # ),
-  # tar_target(
-  #   name = tbl2,
-  #   command = compose_tbl2(jecfa_augmented)
-  # ),
-  # tar_target(
-  #   name = tbl3,
-  #   command = compose_tbl3(jecfa_augmented)
-  # ),
-  # tar_target(
-  #   name = tbl4,
-  #   command = compose_tbl4(jecfa_augmented)
-  # ),
-  #
-  #
-  # # TRS -------------------------
-  # tar_target(
-  #   urls_list,
-  #   command = compose_urls(jecfa_augmented)
-  # ),
-  #
-  # tar_target(
-  #   urls_ok,
-  #   command = remove_null_urls(urls_list)
-  # ),
-  #
-  # tar_target(
-  #   trsPaths,
-  #   compose_filepaths(
-  #     urls_ok,
-  #     here::here("data/TRS")
-  #   )
-  # ),
-  #
-  # tar_target(
-  #   trsMapToJecfa,
-  #   compose_maptojecfa(trsPaths)
-  # ),
-  #
-  # tar_files(
-  #   fasPaths,
-  #   list.files(
-  #       here::here("data/FAS"),
-  #       pattern = "\\.pdf$",
-  #       full.names = TRUE
-  #   )
-  # ),
-  # tar_target(
-  #   fasMapToJecfa,
-  #   jecfa_augmented |>
-  #     dplyr::mutate(
-  #       file = FAS |>
-  #         stringr::str_extract("^\\d+") |>
-  #         stringr::str_c(".pdf")
-  #     ) |>
-  #     dplyr::select(file, ref_id)
-  # ),
-  #
-  # tar_target(
-  #   trsPathsNoid,
-  #   compose_filepaths(
-  #     urls_ok,
-  #     here::here("data/TRS_unique"),
-  #     noid = TRUE
-  #   )
-  # ),
-  #
-  # tar_target(
-  #   trsUrls,
-  #   command = purrr::map_chr(urls_ok, "url"),
-  #   format = "url"
-  # ),
-  #
-  # tar_target(
-  #   trsDownload,
-  #   download_trs(
-  #     trsUrls, trsPaths, trsPathsNoid
-  #   ),
-  #   pattern = map(
-  #     trsUrls, trsPaths, trsPathsNoid
-  #   ),
-  #   format = "file"
-  # ),
-  #
-  # tar_target(
-  #   trsUniqueAux,
-  #   unique(trsDownload)
-  # ),
-  #
-  # tar_target(
-  #   trsUnique,
-  #   trsUniqueAux,
-  #   pattern = map(trsUniqueAux),
-  #   format = "file"
-  # ),
-  #
-  #
-  # tar_target(
-  #   trsParsed,
-  #   parse_pdf(trsUnique, dpi = 75),
-  #   pattern = map(trsUnique),
-  #   iteration = "list"
-  # ),
-  #
-  # tar_target(
-  #   fasParsed,
-  #   parse_pdf(fasPaths, dpi = 75),
-  #   pattern = map(fasPaths),
-  #   iteration = "list"
-  # ),
-  #
-  # tar_target(
-  #   keywords,
-  #   c(
-  #     "dose-response",
-  #     "dose response",
-  #     "modelling",
-  #     "modeling",
-  #     "bmd",
-  #     "bmr",
-  #     "benchmark dose",
-  #     "benchmark-dose"
-  #   )
-  # ),
-  #
-  # tar_target(
-  #   FASKeywordMatching,
-  #   match_keywords(
-  #     fasPaths, fasParsed, keywords, "FAS"
-  #   ) |>
-  #     dplyr::left_join(
-  #       fasMapToJecfa,
-  #       relationship = "many-to-many"
-  #     ),
-  #   pattern = map(fasPaths, fasParsed)
-  # ),
-  #
-  # tar_target(
-  #   TRSKeywordMatching,
-  #   match_keywords(
-  #     trsUnique, trsParsed, keywords, "TRS"
-  #   ) |>
-  #     dplyr::left_join(
-  #       trsMapToJecfa,
-  #       relationship = "many-to-many"
-  #     ),
-  #   pattern = map(trsUnique, trsParsed)
-  # ),
-  #
-  # tar_target(
-  #   keywordMatching,
-  #   FASKeywordMatching |>
-  #     dplyr::bind_rows(TRSKeywordMatching)
-  # ),
-  #
-  # tar_target(
-  #   jecfa_tm_full,
-  #   jecfa_augmented |>
-  #     dplyr::left_join(
-  #       keywordMatching,
-  #       relationship = "many-to-many"
-  #     ) |>
-  #     dplyr::distinct()
-  # ),
-  #
+  # Descriptive tables -----------
+  tar_target(
+    name = tbl1,
+    command = compose_tbl1(jecfa_augmented)
+  ),
+  tar_target(
+    name = tbl2,
+    command = compose_tbl2(jecfa_augmented)
+  ),
+  tar_target(
+    name = tbl3,
+    command = compose_tbl3(jecfa_augmented)
+  ),
+  tar_target(
+    name = tbl4,
+    command = compose_tbl4(jecfa_augmented)
+  ),
+
+
+  # TRS -------------------------
+  tar_target(
+    urls_list,
+    command = compose_urls(jecfa_augmented)
+  ),
+
+  tar_target(
+    urls_ok,
+    command = remove_null_urls(urls_list)
+  ),
+
+  tar_target(
+    trsPaths,
+    compose_filepaths(
+      urls_ok,
+      here::here("data/TRS")
+    )
+  ),
+
+  tar_target(
+    trsMapToJecfa,
+    compose_maptojecfa(trsPaths)
+  ),
+
+  tar_files(
+    fasPaths,
+    list.files(
+        here::here("data/FAS"),
+        pattern = "\\.pdf$",
+        full.names = TRUE
+    )
+  ),
+  tar_target(
+    fasMapToJecfa,
+    jecfa_augmented |>
+      dplyr::mutate(
+        file = FAS |>
+          stringr::str_extract("^\\d+") |>
+          stringr::str_c(".pdf")
+      ) |>
+      dplyr::select(file, ref_id)
+  ),
+
+  tar_target(
+    trsPathsNoid,
+    compose_filepaths(
+      urls_ok,
+      here::here("data/TRS_unique"),
+      noid = TRUE
+    )
+  ),
+
+  tar_target(
+    trsUrls,
+    command = purrr::map_chr(urls_ok, "url"),
+    format = "url"
+  ),
+
+  tar_target(
+    trsDownload,
+    download_trs(
+      trsUrls, trsPaths, trsPathsNoid
+    ),
+    pattern = map(
+      trsUrls, trsPaths, trsPathsNoid
+    ),
+    format = "file"
+  ),
+
+  tar_target(
+    trsUniqueAux,
+    unique(trsDownload)
+  ),
+
+  tar_target(
+    trsUnique,
+    trsUniqueAux,
+    pattern = map(trsUniqueAux),
+    format = "file"
+  ),
+
+
+  tar_target(
+    trsParsed,
+    parse_pdf(trsUnique, dpi = 75),
+    pattern = map(trsUnique),
+    iteration = "list"
+  ),
+
+  tar_target(
+    fasParsed,
+    parse_pdf(fasPaths, dpi = 75),
+    pattern = map(fasPaths),
+    iteration = "list"
+  ),
+
+  tar_target(
+    keywords,
+    c(
+      "dose-response",
+      "dose response",
+      "modelling",
+      "modeling",
+      "bmd",
+      "bmr",
+      "benchmark dose",
+      "benchmark-dose"
+    )
+  ),
+
+  tar_target(
+    FASKeywordMatching,
+    match_keywords(
+      fasPaths, fasParsed, keywords, "FAS"
+    ) |>
+      dplyr::left_join(
+        fasMapToJecfa,
+        relationship = "many-to-many"
+      ),
+    pattern = map(fasPaths, fasParsed)
+  ),
+
+  tar_target(
+    TRSKeywordMatching,
+    match_keywords(
+      trsUnique, trsParsed, keywords, "TRS"
+    ) |>
+      dplyr::left_join(
+        trsMapToJecfa,
+        relationship = "many-to-many"
+      ),
+    pattern = map(trsUnique, trsParsed)
+  ),
+
+  tar_target(
+    keywordMatching,
+    FASKeywordMatching |>
+      dplyr::bind_rows(TRSKeywordMatching)
+  ),
+
+  tar_target(
+    jecfa_tm_full,
+    jecfa_augmented |>
+      dplyr::left_join(
+        keywordMatching,
+        relationship = "many-to-many"
+      ) |>
+      dplyr::distinct()
+  ),
+
   # # tables tm -------------------
   # tar_target(
   #   tbl5,
