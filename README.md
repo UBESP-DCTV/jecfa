@@ -164,6 +164,80 @@ pipeline every time you start the project.
 > once, you can always have access the every defined targets by calling
 > `tar_read(<unquoted_target_name>)` in the R console!
 
+## Installing and Using the Project as an R Package
+
+This project can be easily installed as an R package, giving you access
+to all the functions and dataset documentation. You have two main
+options for using the project: installing it as a package or loading it
+directly from the cloned repository.
+
+### Option 1: Installing the Package
+
+1.  **Install the Package from GitHub:**
+
+You can install the package directly from GitHub using the `devtools`
+package. If you don’t have `devtools` installed, you can install it
+first:
+
+``` r
+install.packages("devtools")
+```
+
+Then, install the package using:
+
+``` r
+devtools::install_github("UBESP-DCTV/jecfa")
+```
+
+2.  **Load the Package:**
+
+After installation, load the package with:
+
+``` r
+library(jecfa)
+```
+
+### Option 2: Loading from a Cloned Repository
+
+1.  **Clone the Repository:**
+
+First, clone the repository to your local machine using Git:
+
+``` bash
+git clone https://github.com/UBESP-DCTV/jecfa
+cd jecfa
+```
+
+2.  (After opening R on the project) **Load the Project without
+    Installation:**
+
+If you prefer not to install the package, you can load it directly from
+(an R session started/activated on the project) the cloned repository
+using `devtools`:
+
+``` r
+devtools::load_all()
+```
+
+### Accessing Functions and Dataset Documentation
+
+Regardless of the method you choose, you can access the functions and
+dataset documentation easily. For example, to view the documentation for
+the `jecfaDistiller` dataset, use:
+
+``` r
+?jecfaDistiller
+```
+
+Similarly, you can access documentation for other dataset and functions
+included in the package using their respective names:
+
+``` r
+?jecfa_tm_full
+?jecfa_augmented
+?jecfa
+```
+
 ## Code of Conduct
 
 Please note that the jecfa project is released with a [Contributor Code
