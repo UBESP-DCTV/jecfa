@@ -7,6 +7,7 @@
 
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/UBESP-DCTV/jecfa/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/UBESP-DCTV/jecfa/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `{jecfa}` is to implement a pipeline to download and process
