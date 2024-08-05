@@ -21,3 +21,6 @@
 ^docker-compose.yaml$
 ^\.dockerignore$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
