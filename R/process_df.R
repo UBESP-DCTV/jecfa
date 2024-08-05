@@ -1,3 +1,18 @@
+#' Preprocess JECFA data
+#'
+#' This function cleans the JECFA data by removing unnecessary columns
+#' and renaming the remaining ones.
+#'
+#' @param df_clean A data frame with the JECFA data
+#'
+#' @return A data frame with the cleaned JECFA data
+#' @export
+#'
+#' @examples
+#' c(1, 2) |>
+#'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
+#'   create_df() |>
+#'   process_df()
 process_df <- function(df_clean) {
   df_clean |>
     dplyr::mutate(

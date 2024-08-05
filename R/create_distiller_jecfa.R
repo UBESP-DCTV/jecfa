@@ -1,3 +1,11 @@
+#' Create JECFA distiller
+#'
+#' This function creates a distiller db from the JECFA data.
+#'
+#' @param jecfa_tm_full A tibble with the JECFA data
+#'
+#' @return A tibble with the distiller data
+#' @export
 create_distiller_jecfa <- function(jecfa_tm_full) {
   jecfa_tm_full |>
     dplyr::select(-c(matching_pages, any_match)) |>
@@ -32,5 +40,4 @@ create_distiller_jecfa <- function(jecfa_tm_full) {
       CAS.number_1 = CAS.number |>
         stringr::str_sub(3, nchar(CAS.number) - 2)
     )
-
 }

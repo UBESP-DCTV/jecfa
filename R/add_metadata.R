@@ -1,3 +1,22 @@
+#' Add metadata to the JECFA dataset
+#'
+#' This function adds metadata to the JECFA dataset. The metadata
+#' includes the type of the JECFA report, the host of the URL, the
+#' abbreviation of the JECFA report, the clean report, the FAS number,
+#' and a reference ID.
+#'
+#' @param jecfa A data frame with the JECFA data
+#'
+#' @return A data frame with the JECFA data and the added metadata
+#' @export
+#'
+#' @examples
+#' library(jecfa)
+#' c(1, 2) |>
+#'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
+#'   create_df() |>
+#'   process_df() |>
+#'   add_metadata()
 add_metadata <- function(jecfa) {
   jecfa |>
     dplyr::mutate(

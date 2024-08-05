@@ -1,5 +1,21 @@
+#' Match keywords in a parsed PDF
+#'
+#' This function takes a parsed PDF and a list of keywords and returns a
+#' tibble with the source of the PDF, the file name, the keywords, the
+#' pages where the keywords were found, and whether any of the keywords
+#' were found.
+#'
+#' @param file_path (chr) The path to the PDF file
+#' @param parsedPdf (chr) The parsed PDF
+#' @param keywords (chr) keywords to search for
+#' @param source (chr) The source of the PDF, either "FAS" or "TRS"
+#'
+#' @return (tibble) A tibble with the source of the PDF, the file name,
+#'   the keywords, the pages where the keywords were found, and whether
+#'   any of the keywords were found.
+#' @export
 match_keywords <- function(
-  trsUnique,
+  file_path,
   parsedPdf,
   keywords,
   source = c("FAS", "TRS")
@@ -8,7 +24,7 @@ match_keywords <- function(
 
   tibble::tibble(
     source = source,
-    file = basename(trsUnique),
+    file = basename(file_path),
     keywords = keywords,
     matching_pages = purrr::map(
       keywords,

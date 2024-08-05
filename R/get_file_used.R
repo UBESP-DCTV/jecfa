@@ -9,7 +9,6 @@ get_file_used <- function(jecfaDistiller, fasPaths, trsUnique) {
     unique()
 }
 
-
 move_file_used <- function(x, dest_dir) {
   x |>
     fs::file_copy(

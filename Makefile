@@ -32,7 +32,7 @@ push: tag
 	docker push -a corradolanera/jecfa
 
 up:
-	docker-compose up -d
+	docker-compose up --build --detach
 
 down:
 	docker-compose down

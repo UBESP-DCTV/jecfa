@@ -1,4 +1,4 @@
-
+# reporter <- "verbose"
 # reporter <- "verbose_positives"
 reporter <- "summary"
 
@@ -6,7 +6,7 @@ usethis::ui_info("Start: {tic <- lubridate::now()}")
 
 targets::tar_make(
   reporter = reporter,
-  seconds_meta_append = 15,
+  seconds_meta_append = 1.5,
   seconds_reporter = 0.5
 )
 
@@ -28,4 +28,3 @@ computational_time <- targets::tar_meta(
 usethis::ui_info(
   "Computational time: {lubridate::as.duration(round(computational_time, 2))}"
 )
-
