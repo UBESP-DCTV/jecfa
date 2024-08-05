@@ -14,9 +14,11 @@
 #' @export
 #'
 #' @examples
+#' library(jecfa)
+#'
 #' # first element will be NULL because report 1 has no PDF, while
-#' record 2 has a PDF so it will be a list with the URL, the filename
-#' with the ID and the filename without the ID.
+#' # record 2 has a PDF so it will be a list with the URL, the filename
+#' # with the ID and the filename without the ID.
 #' c(1, 10) |>
 #'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
 #'   create_df() |>
@@ -45,6 +47,8 @@ compose_urls <- function(jecfa) {
 #' @export
 #'
 #' @examples
+#' library(jecfa)
+#'
 #' jecfa_sample <- c(1, 10) |>
 #'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
 #'   create_df() |>

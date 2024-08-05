@@ -11,7 +11,7 @@ Description: Scrapes details related to chemicals from the [Evaluations of
     the Joint FAO/WHO Expert Committee on Food Additives
     (JECFA)](https://apps.who.int/food-additives-contaminants-jecfa-database/Home/),
     captures evaluation reports, links, and other data points.
-License: CC BY 4.0
+License: MIT + file LICENSE
 Depends:
     R (>= 3.5.0)
 Imports: 
@@ -20,10 +20,13 @@ Imports:
     gtsummary,
     here,
     janitor,
+    lubridate,
     pdftools,
     purrr,
     rvest,
     stringr,
+    tibble,
+    tidyr,
     usethis
 Suggests: 
     checkmate,

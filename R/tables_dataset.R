@@ -79,7 +79,7 @@ compose_tbl2 <- function(jecfa) {
 #' @export
 #'
 #' @examples
-#' jecfa_sample <- c(1, 2) |>
+#' jecfa_sample <- c(9:11) |>
 #'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
 #'   create_df() |>
 #'   process_df() |>
@@ -109,7 +109,7 @@ compose_tbl3 <- function(jecfa) {
 #' @export
 #'
 #' @examples
-#' jecfa_sample <- c(1, 2) |>
+#' jecfa_sample <- c(9:11) |>
 #'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
 #'   create_df() |>
 #'   process_df() |>

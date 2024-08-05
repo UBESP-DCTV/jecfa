@@ -50,10 +50,32 @@ get_filename <- function(x) {
   x[["fnm"]]
 }
 
+#' Get error
+#'
+#' This function extracts the "error" field from a list.
+#'
+#' @param x (list) A list with a field named 'error'
+#'
+#' @return The value of the 'error' field
+#' @export
+#'
+#' @examples
+#' get_error(list(error = "error message"))
 get_error <- function(x) {
   x[["error"]]
 }
 
+#' Get result
+#'
+#' This function extracts the "result" field from a list.
+#'
+#' @param x (list) A list with a field named 'result'
+#'
+#' @return The value of the 'result' field
+#' @export
+#'
+#' @examples
+#' get_result(list(result = 1))
 get_result <- function(x) {
   x[["result"]]
 }

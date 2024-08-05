@@ -23,6 +23,8 @@ they should report "NOT FAS" or "NOT PREPARED" in the
 \code{Report_sourcelink} column.
 }
 \examples{
+library(jecfa)
+
 jecfa_sample <- c(1, 10) |>
   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
   create_df() |>

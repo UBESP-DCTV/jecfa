@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @examples
+#' library(jecfa)
 #' c(1, 2) |>
 #'   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
 #'   create_df() |>

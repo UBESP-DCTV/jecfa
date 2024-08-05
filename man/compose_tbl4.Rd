@@ -16,7 +16,7 @@ a gtsummary table
 Create a table with the distribution of strange cases
 }
 \examples{
-jecfa_sample <- c(1, 2) |>
+jecfa_sample <- c(9:11) |>
   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
   create_df() |>
   process_df() |>

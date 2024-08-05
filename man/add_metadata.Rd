@@ -19,6 +19,7 @@ abbreviation of the JECFA report, the clean report, the FAS number,
 and a reference ID.
 }
 \examples{
+library(jecfa)
 c(1, 2) |>
   purrr::map(\(id) compose_jecfa_list(id) |> get_result()) |>
   create_df() |>
